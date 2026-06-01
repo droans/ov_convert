@@ -1,0 +1,30 @@
+[project]
+name = "ov-convert"
+version = "0.1.0"
+description = "OpenVINO Model Conversion Utility"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "openvino>=2026.2.0",
+  "openvino-genai>=2026.2.0",
+  "openvino-tokenizers>=2026.2.0",
+  "pydantic>=2.13.4",
+  "pyyaml>=6.0.3",
+  "transformers~=5.2.0",
+]
+
+
+[dependency-groups]
+dev = [
+    "prek>=0.3.1",
+    "ruff>=0.12.12",
+    "ty>=0.0.15",
+]
+
+[tool.setuptools]
+include-package-data = true
+platforms = ["any"]
+zip-safe = false
+
+[tool.setuptools.package-data]
+GrossOrders = ["py.typed"]
