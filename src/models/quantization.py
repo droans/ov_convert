@@ -3,7 +3,6 @@ from pydantic import BaseModel, FilePath, ValidationError, field_validator
 
 from .const import (
   BACKUP_PRECISION_TYPE,
-  DEFAULT_GROUP_SIZE_FALLBACK,
   GROUP_SIZE_FALLBACK_TYPE,
   SENSITIVITIY_METRIC_TYPE,
 )
@@ -38,7 +37,7 @@ class WeightQuantizationConfig(BaseQuantizationConfig):
   dq_group_size: int | None = None
   gptq: bool = False
   group_size: int = 128
-  group_size_fallback: GROUP_SIZE_FALLBACK_TYPE | None = DEFAULT_GROUP_SIZE_FALLBACK
+  group_size_fallback: GROUP_SIZE_FALLBACK_TYPE | None = None
   lora_correction: bool = False
   ratio: float | None = 1.0
   scale_estimation: bool
