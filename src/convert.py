@@ -168,20 +168,6 @@ def load_model(model_config: ModelConfigurationInternal) -> OVBaseModel:
   tokenizer = conf.quantization.tokenizer
 
   cls = OVModelForVisualCausalLM if model_type == "vlm" else OVModelForCausalLM
-  msg = f"""⚠️[OVConvert]⚠️ Using config:
-    {model_name},
-    export=True,
-    trust_remote_code={trust_remote_code},
-    device={device},
-    ov_config={ov_config},
-    compile=False,
-    quantization_config={quant_config},
-    processor={processor},
-    tokenizer={tokenizer},
-  """
-  logger.info(msg)
-  msg = f"⚠️[OVConvert]⚠️ Unproccessed quant config: {conf.quantization.model_dump()}"
-  logger.info(msg)
   return cls.from_pretrained(
     model_name,
     export=True,
