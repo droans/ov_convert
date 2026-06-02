@@ -14,44 +14,6 @@ SENSITIVITIY_METRIC_TYPE = Literal[
   "mean_activation_magnitude",
 ]
 
-TASKS_TYPE = Literal[
-  "audio-classification",
-  "audio-frame-classification",
-  "audio-xvector",
-  "automatic-speech-recognition",
-  "automatic-speech-recognition-with-past",
-  "depth-estimation",
-  "document-question-answering",
-  "document-question-answering-with-past",
-  "feature-extraction",
-  "feature-extraction-with-past",
-  "fill-mask",
-  "image-classification",
-  "image-segmentation",
-  "image-to-image",
-  "image-to-text",
-  "image-to-text-with-past",
-  "inpainting",
-  "mask-generation",
-  "masked-im",
-  "multiple-choice",
-  "object-detection",
-  "question-answering",
-  "semantic-segmentation",
-  "sentence-similarity",
-  "text-classification",
-  "text-generation",
-  "text-generation-with-past",
-  "text-to-audio",
-  "text-to-audio-with-past",
-  "text-to-image",
-  "text2text-generation",
-  "text2text-generation-with-past",
-  "token-classification",
-  "zero-shot-image-classification",
-  "zero-shot-object-detection",
-]
-
 QUANT_METHOD_TYPE = Literal["awq", "hybrid", "default"]
 DEFAULT_QUANT_METHOD_TYPE: QUANT_METHOD_TYPE = "default"
 
