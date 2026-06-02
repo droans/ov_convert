@@ -35,7 +35,7 @@ class BaseQuantizationConfig(BaseModel):
   dataset: str | None = None
   tokenizer: str | None = None
   processor: str | None = None
-  dtype: WEIGHT_FORMATS_TYPE = "int8"
+  dtype: WEIGHT_FORMATS_TYPE | None = None
   kwargs: dict | None = None
 
 class FullQuantizationConfig(BaseQuantizationConfig):
