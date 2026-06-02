@@ -30,8 +30,17 @@ include-package-data = true
 platforms = ["any"]
 zip-safe = false
 
+[tool.setuptools.packages.find]
+include = ["src", "src.*"]
 [tool.setuptools.package-data]
 GrossOrders = ["py.typed"]
 
 [tool.uv.sources]
 optimum-intel = { git = "https://github.com/huggingface/optimum-intel" }
+
+[build-system]
+requires = ["setuptools~=77.0"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+ov-convert = "src.cli:cli_convert"
