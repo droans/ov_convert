@@ -1,4 +1,5 @@
 """Converts model."""
+import json
 import logging
 
 import yaml
@@ -42,7 +43,9 @@ def dump_config_to_file(config: VlmModelConfiguration | LlmModelConfiguration) -
   msg = f"⚠️[OVConvert]⚠️ Include defaults: {include_defaults}"
   logger.error(msg)
 
-  data = config.model_dump(exclude_unset=not include_defaults)
+  # Must dump to json and reload due to PosixPath objects in schema
+  data = json.loads(config.model_dump_json(exclude_unset=not include_defaults))
+
   yaml_str = yaml.safe_dump(data)
   save_path = f"{config.export.path}/conversion_config.yaml"
   with open(save_path, "w") as f:
