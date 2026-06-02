@@ -2,12 +2,12 @@
 from pydantic import BaseModel, FilePath, ValidationError, field_validator
 
 from src.const import (
+  QUANT_BACKUP_PRECISION_TYPE,
   QUANT_DEFAULT_BACKUP_PRECISION,
   QUANT_DEFAULT_GROUP_SIZE_FALLBACK,
   QUANT_DEFAULT_SENSITIVITIY_METRIC,
-  QUANT_OPTIONS_BACKUP_PRECISION,
-  QUANT_OPTIONS_GROUP_SIZE_FALLBACK,
-  QUANT_OPTIONS_SENSITIVITIY_METRIC,
+  QUANT_GROUP_SIZE_FALLBACK_TYPE,
+  QUANT_SENSITIVITIY_METRIC_TYPE,
 )
 
 
@@ -36,49 +36,16 @@ class WeightQuantizationConfig(BaseQuantizationConfig):
   """Quantization settings when applying weights-only quantization."""
 
   all_layers: bool | None
-  backup_precision: str | None = QUANT_DEFAULT_BACKUP_PRECISION
+  backup_precision: QUANT_BACKUP_PRECISION_TYPE | None = QUANT_DEFAULT_BACKUP_PRECISION
   dq_group_size: int | None = None
   gptq: bool = False
   group_size: int = 128
-  group_size_fallback: str | None = QUANT_DEFAULT_GROUP_SIZE_FALLBACK
+  group_size_fallback: QUANT_GROUP_SIZE_FALLBACK_TYPE | None = QUANT_DEFAULT_GROUP_SIZE_FALLBACK
   lora_correction: bool = False
   ratio: float | None = 1.0
   scale_estimation: bool
-  sensitivity_metric: str | None = QUANT_DEFAULT_SENSITIVITIY_METRIC
+  sensitivity_metric: QUANT_SENSITIVITIY_METRIC_TYPE | None = QUANT_DEFAULT_SENSITIVITIY_METRIC
   statistics_path: FilePath
-
-  @field_validator("backup_precision")
-  @classmethod
-  def validate_backup_precision(cls, value: str | None) -> str | None:
-    """Validates backup_precision."""
-    if value not in QUANT_OPTIONS_BACKUP_PRECISION:
-      msg = f"{value} is an invalid option for backup_precision. Expected one of {QUANT_OPTIONS_BACKUP_PRECISION}"
-      raise ValidationError(msg)
-    if value is None:
-      return QUANT_DEFAULT_BACKUP_PRECISION
-    return value
-
-  @field_validator("group_size_fallback")
-  @classmethod
-  def validate_group_size_fallback(cls, value: str | None) -> str | None:
-    """Validates group_size_fallback."""
-    if value not in QUANT_OPTIONS_GROUP_SIZE_FALLBACK:
-      msg = f"{value} is an invalid option for group_size_fallback. Expected one of {QUANT_OPTIONS_GROUP_SIZE_FALLBACK}"
-      raise ValidationError(msg)
-    if value is None:
-      return QUANT_DEFAULT_GROUP_SIZE_FALLBACK
-    return value
-
-  @field_validator("sensitivity_metric")
-  @classmethod
-  def validate_sensitivity_metric(cls, value: str | None) -> str | None:
-    """Validates sensitivity_metric."""
-    if value not in QUANT_OPTIONS_SENSITIVITIY_METRIC:
-      msg = f"{value} is an invalid option for sensitivity_metric. Expected one of {QUANT_OPTIONS_SENSITIVITIY_METRIC}"
-      raise ValidationError(msg)
-    if value is None:
-      return QUANT_DEFAULT_SENSITIVITIY_METRIC
-    return value
 
   @field_validator("ratio")
   @classmethod
