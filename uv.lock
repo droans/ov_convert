@@ -957,7 +957,7 @@ dependencies = [
 [[package]]
 name = "ov-convert"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "huggingface-hub" },
     { name = "nncf" },
@@ -965,6 +965,7 @@ dependencies = [
     { name = "openvino-genai" },
     { name = "openvino-tokenizers" },
     { name = "optimum-intel", extra = ["openvino"] },
+    { name = "optimum-onnx" },
     { name = "pillow" },
     { name = "pydantic" },
     { name = "pyyaml" },
@@ -986,6 +987,7 @@ requires-dist = [
     { name = "openvino-genai", specifier = ">=2026.2.0" },
     { name = "openvino-tokenizers", specifier = ">=2026.2.0" },
     { name = "optimum-intel", extras = ["openvino"], git = "https://github.com/huggingface/optimum-intel" },
+    { name = "optimum-onnx", git = "https://github.com/huggingface/optimum-onnx.git?rev=transformers-v5" },
     { name = "pillow", specifier = ">=12.2.0" },
     { name = "pydantic", specifier = ">=2.13.4" },
     { name = "pyyaml", specifier = ">=6.0.3" },
