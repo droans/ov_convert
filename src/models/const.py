@@ -19,7 +19,7 @@ SENSITIVITIY_METRIC_TYPE = Literal[
 ]
 SENSITIVITIY_METRICS = list(typing.get_args(SENSITIVITIY_METRIC_TYPE))
 
-TASKS_TYPES_TYPE = Literal[
+TASKS_TYPE = Literal[
   "audio-classification",
   "audio-frame-classification",
   "audio-xvector",
@@ -56,4 +56,4 @@ TASKS_TYPES_TYPE = Literal[
   "zero-shot-image-classification",
   "zero-shot-object-detection",
 ]
-TASKS_TYPE = list(typing.get_args(TASKS_TYPES_TYPE))
+TASKS = list(typing.get_args(TASKS_TYPE))
