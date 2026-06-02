@@ -1,13 +1,13 @@
 """Models for Quantization Settings."""
 from pydantic import BaseModel, FilePath, ValidationError, field_validator
 
-from src.const import (
-  QUANT_BACKUP_PRECISION_TYPE,
-  QUANT_DEFAULT_BACKUP_PRECISION,
-  QUANT_DEFAULT_GROUP_SIZE_FALLBACK,
-  QUANT_DEFAULT_SENSITIVITIY_METRIC,
-  QUANT_GROUP_SIZE_FALLBACK_TYPE,
-  QUANT_SENSITIVITIY_METRIC_TYPE,
+from .const import (
+  BACKUP_PRECISION_TYPE,
+  DEFAULT_BACKUP_PRECISION,
+  DEFAULT_GROUP_SIZE_FALLBACK,
+  DEFAULT_SENSITIVITIY_METRIC,
+  GROUP_SIZE_FALLBACK_TYPE,
+  SENSITIVITIY_METRIC_TYPE,
 )
 
 
@@ -36,15 +36,15 @@ class WeightQuantizationConfig(BaseQuantizationConfig):
   """Quantization settings when applying weights-only quantization."""
 
   all_layers: bool | None
-  backup_precision: QUANT_BACKUP_PRECISION_TYPE | None = QUANT_DEFAULT_BACKUP_PRECISION
+  backup_precision: BACKUP_PRECISION_TYPE | None = DEFAULT_BACKUP_PRECISION
   dq_group_size: int | None = None
   gptq: bool = False
   group_size: int = 128
-  group_size_fallback: QUANT_GROUP_SIZE_FALLBACK_TYPE | None = QUANT_DEFAULT_GROUP_SIZE_FALLBACK
+  group_size_fallback: GROUP_SIZE_FALLBACK_TYPE | None = DEFAULT_GROUP_SIZE_FALLBACK
   lora_correction: bool = False
   ratio: float | None = 1.0
   scale_estimation: bool
-  sensitivity_metric: QUANT_SENSITIVITIY_METRIC_TYPE | None = QUANT_DEFAULT_SENSITIVITIY_METRIC
+  sensitivity_metric: SENSITIVITIY_METRIC_TYPE | None = DEFAULT_SENSITIVITIY_METRIC
   statistics_path: FilePath
 
   @field_validator("ratio")
