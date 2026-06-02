@@ -60,29 +60,29 @@ def export(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
   _export_model = export_conf.model
   export_config = export_conf.configuration
   msg = f"⚠️[OVConvert]⚠️ Exporting {config.model.name}"
-  logger.error(msg)
+  logger.info(msg)
 
   # Export tokenizers, processors first. If they have an issue, we should
   if export_tokenizer:
-    logger.error("⚠️[OVConvert]⚠️ Exporting tokenizer.")
+    logger.info("⚠️[OVConvert]⚠️ Exporting tokenizer.")
     export_model_tokenizer(model_config)
-    logger.error("⚠️[OVConvert]⚠️ Tokenizer exported.")
+    logger.info("⚠️[OVConvert]⚠️ Tokenizer exported.")
   if export_processor:
-    logger.error("⚠️[OVConvert]⚠️ Exporting processor.")
+    logger.info("⚠️[OVConvert]⚠️ Exporting processor.")
     export_model_processor(model_config)
-    logger.error("⚠️[OVConvert]⚠️ Processor exported.")
+    logger.info("⚠️[OVConvert]⚠️ Processor exported.")
   if export_preprocessor:
-    logger.error("⚠️[OVConvert]⚠️ Exporting preprocessor.")
+    logger.info("⚠️[OVConvert]⚠️ Exporting preprocessor.")
     export_model_preprocessor(model_config)
-    logger.error("⚠️[OVConvert]⚠️ Preprocessor exported.")
+    logger.info("⚠️[OVConvert]⚠️ Preprocessor exported.")
   if _export_model:
-    logger.error("⚠️[OVConvert]⚠️ Exporting model.")
+    logger.info("⚠️[OVConvert]⚠️ Exporting model.")
     export_model(model_config)
-    logger.error("⚠️[OVConvert]⚠️ Model exported.")
+    logger.info("⚠️[OVConvert]⚠️ Model exported.")
   if export_config:
-    logger.error("⚠️[OVConvert]⚠️ Exporting config.")
+    logger.info("⚠️[OVConvert]⚠️ Exporting config.")
     dump_config_to_file(config)
-    logger.error("⚠️[OVConvert]⚠️ Config exported.")
+    logger.info("⚠️[OVConvert]⚠️ Config exported.")
 
 
 def export_model(model_config: ModelConfigurationInternal) -> None:
@@ -179,9 +179,9 @@ def load_model(model_config: ModelConfigurationInternal) -> OVBaseModel:
     processor={processor},
     tokenizer={tokenizer},
   """
-  logger.error(msg)
+  logger.info(msg)
   msg = f"⚠️[OVConvert]⚠️ Unproccessed quant config: {conf.quantization.model_dump()}"
-  logger.error(msg)
+  logger.info(msg)
   return cls.from_pretrained(
     model_name,
     export=True,
