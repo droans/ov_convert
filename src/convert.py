@@ -138,13 +138,19 @@ def generate_ov_pipeline_quant_config(
 
 def generate_ov_component_weight_quant_config(config: WeightQuantizationConfig) -> OVWeightQuantizationConfig:
   """Generates the weight quantization config for a component in the model."""
+  kwargs = config.kwargs
   passed_config: dict = config.model_dump()
+  passed_config.pop("kwargs")
+  passed_config = {**passed_config, **(kwargs or {})}
   passed_config["ignored_scope"] = IgnoredScope(**config.ignored_scope.model_dump()) if config.ignored_scope else {}
   return OVWeightQuantizationConfig(**passed_config)
 
 def generate_ov_component_full_quant_config(config: FullQuantizationConfig) -> OVQuantizationConfig:
   """Generates the full quantization config for a component in the model."""
+  kwargs = config.kwargs
   passed_config: dict = config.model_dump()
+  passed_config.pop("kwargs")
+  passed_config = {**passed_config, **(kwargs or {})}
   passed_config["ignored_scope"] = IgnoredScope(**config.ignored_scope.model_dump()) if config.ignored_scope else {}
   return OVQuantizationConfig(**passed_config)
 
