@@ -1,0 +1,46 @@
+model:
+  name: Qwen/Qwen3.5-0.8B
+  type: vlm
+load_options:
+  trust_remote_code: true
+  device: GPU
+  ov_config:
+    PERFORMANCE_HINT: LATENCY
+  
+export:
+  configuration: true
+  include_defaults: true
+  tokenizer: true
+  processor: false
+  preprocessor: false
+  path: /models/qwen3.5-0.8b
+  # path: /home/michael/projects/ov
+quantization:
+  processor: Qwen/Qwen3.5-0.8B
+  tokenizer: Qwen/Qwen3.5-0.8B
+  default_config:
+    quant_method: default
+  config:
+    lm_model:
+      processor: Qwen/Qwen3.5-0.8B
+      tokenizer: Qwen/Qwen3.5-0.8B
+      bits: 4
+      dtype: int4
+      group_size: 64
+      group_size_fallback: adjust
+      ignored_scope:
+        patterns: [".*router.*"]
+      quant_method: awq
+      dataset: contextual
+      ratio: 0.8
+      sym: False
+    text_embeddings_model:
+      processor: Qwen/Qwen3.5-0.8B
+      tokenizer: Qwen/Qwen3.5-0.8B
+      quant_method: default
+      bits: 4
+    vision_embeddings_merger_model:
+      processor: Qwen/Qwen3.5-0.8B
+      tokenizer: Qwen/Qwen3.5-0.8B
+      quant_method: default
+      bits: 4
