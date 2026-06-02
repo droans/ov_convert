@@ -1,10 +1,16 @@
 """Models for language models."""
 from pydantic import BaseModel
 
-from src.models.export import LlmModelExportSettingsConfigSchema, VlmModelExportSettingsConfigSchema
-from src.models.load_options import LoadOptions
-from src.models.model_information import LlmModelInformationConfig, VlmModelInformationConfig
-from src.models.quantization import LlmQuantizationSettingsSchema, VlmQuantizationSettingsSchema
+from ov_convert.models.export import (
+  LlmModelExportSettingsConfigSchema,
+  VlmModelExportSettingsConfigSchema,
+)
+from ov_convert.models.load_options import LoadOptions
+from ov_convert.models.model_information import LlmModelInformationConfig, VlmModelInformationConfig
+from ov_convert.models.quantization import (
+  LlmQuantizationSettingsSchema,
+  VlmQuantizationSettingsSchema,
+)
 
 
 class LlmModelConfiguration(BaseModel):

@@ -22,9 +22,9 @@ from transformers import (
   TokenizersBackend,
 )
 
-from src.models import LlmModelConfiguration, VlmModelConfiguration
-from src.models.model import ModelConfigurationInternal
-from src.models.quantization import (
+from ov_convert.models import LlmModelConfiguration, VlmModelConfiguration
+from ov_convert.models.model import ModelConfigurationInternal
+from ov_convert.models.quantization import (
   FullQuantizationConfig,
   LlmQuantizationSettingsSchema,
   VlmQuantizationSettingsSchema,

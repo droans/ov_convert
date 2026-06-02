@@ -29,12 +29,12 @@ def cli_convert() -> None:
   if not test_config_file(file_path):
     print(f"`{file_path}` either doesn't exist, is not a YAML file, and/or contains invalid configuration.")  # noqa: T201
     sys.exit()
-  from src.convert import export_from_config_file  # noqa: PLC0415
+  from ov_convert.convert import export_from_config_file  # noqa: PLC0415
   export_from_config_file(file_path)
 
 def test_config_file(file_path: str) -> bool:
   """Tests if config file path exists and if config file loads properly."""
-  from src.models.model import ModelConfigurationInternal  # noqa: PLC0415
+  from ov_convert.models.model import ModelConfigurationInternal  # noqa: PLC0415
   if not Path.exists(Path(file_path)) or not file_path.endswith((".yaml", ".yml")):
     return False
   with open(file_path) as f:
