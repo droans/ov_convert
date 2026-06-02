@@ -1,5 +1,4 @@
 """Constants."""
-import typing
 from typing import Literal
 
 BACKUP_PRECISION_TYPE = Literal["int8_sym", "int8_asym"]
