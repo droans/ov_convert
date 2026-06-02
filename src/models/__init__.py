@@ -1,8 +1,8 @@
 """Models used by script."""
 
-from .quantization import FullQuantizationConfig, WeightQuantizationConfig
+from .model import LlmModelConfiguration, VlmModelConfiguration
 
 __all__ = [
-  "FullQuantizationConfig",
-  "WeightQuantizationConfig",
+  "LlmModelConfiguration",
+  "VlmModelConfiguration",
 ]
