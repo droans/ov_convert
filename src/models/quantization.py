@@ -5,7 +5,6 @@ from .const import (
   BACKUP_PRECISION_TYPE,
   DEFAULT_BACKUP_PRECISION,
   DEFAULT_GROUP_SIZE_FALLBACK,
-  DEFAULT_SENSITIVITIY_METRIC,
   GROUP_SIZE_FALLBACK_TYPE,
   SENSITIVITIY_METRIC_TYPE,
 )
@@ -44,7 +43,7 @@ class WeightQuantizationConfig(BaseQuantizationConfig):
   lora_correction: bool = False
   ratio: float | None = 1.0
   scale_estimation: bool
-  sensitivity_metric: SENSITIVITIY_METRIC_TYPE | None = DEFAULT_SENSITIVITIY_METRIC
+  sensitivity_metric: SENSITIVITIY_METRIC_TYPE | None = None
   statistics_path: FilePath
 
   @field_validator("ratio")
