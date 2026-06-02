@@ -25,3 +25,22 @@ LLM_DATASETS = [
   "gsm8k",
 ]
 VLM_DATASETS = ["contextual"]
+
+WEIGHT_FORMATS_TYPE = Literal[
+  "fp32",
+  "fp16",
+  "int8",
+  "int4",
+  "mxfp4",
+  "nf4",
+  "cb4",
+]
+
+QUANT_MODES_TYPE = Literal[
+  "int8",
+  "f8e4m3",
+  "f8e5m2",
+  "int8_f8e4m3",
+  "int4_f8e4m3",
+  "int4_f8e5m2",
+]

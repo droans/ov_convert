@@ -12,6 +12,7 @@ from .const import (
   QUANT_METHOD_TYPE,
   SENSITIVITIY_METRIC_TYPE,
   VLM_DATASETS,
+  WEIGHT_FORMATS_TYPE,
 )
 
 
@@ -34,7 +35,7 @@ class BaseQuantizationConfig(BaseModel):
   dataset: str | None = None
   tokenizer: str | None = None
   processor: str | None = None
-  dtype: str = "int8"
+  dtype: WEIGHT_FORMATS_TYPE = "int8"
   kwargs: dict | None = None
 
 class FullQuantizationConfig(BaseQuantizationConfig):
