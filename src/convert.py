@@ -1,6 +1,7 @@
 """Converts model."""
 import json
 import logging
+from pathlib import Path
 
 import yaml
 from nncf import IgnoredScope
@@ -35,7 +36,10 @@ logger = logging.getLogger()
 def get_config_from_file(config_file_path: str) -> ModelConfigurationInternal:
   """Loads the data from `config_file_path` into the ModelConfigurationInternal model."""
   with open(config_file_path) as f:
-    return ModelConfigurationInternal(config=yaml.safe_load(f.read()))
+    model = ModelConfigurationInternal(config=yaml.safe_load(f.read()))
+  if not model.config.export.path:
+    model.config.export.path = Path(config_file_path).parent
+  return model
 
 def dump_config_to_file(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
   """Dumps the configuration to a file."""
@@ -94,6 +98,7 @@ def export_model(model_config: ModelConfigurationInternal) -> None:
   """Converts a model."""
   save_dir = model_config.config.export.path
   model = load_model(model_config)
+  assert save_dir
   model.save_pretrained(save_dir)
 
 
@@ -117,6 +122,7 @@ def export_model_processor(model_config: ModelConfigurationInternal) -> None:
   trust_remote_code = conf.load_options.trust_remote_code
   save_dir = conf.export.path
   processor: TokenizersBackend = AutoProcessor.from_pretrained(model_name, trust_remote_code=trust_remote_code)
+  assert save_dir
   processor.save_pretrained(save_dir)
 
 def export_model_preprocessor(model_config: ModelConfigurationInternal) -> None:
@@ -126,6 +132,7 @@ def export_model_preprocessor(model_config: ModelConfigurationInternal) -> None:
   trust_remote_code = conf.load_options.trust_remote_code
   save_dir = conf.export.path
   preprocessor: TokenizersBackend = AutoImageProcessor.from_pretrained(model_name, trust_remote_code=trust_remote_code)
+  assert save_dir
   preprocessor.save_pretrained(save_dir)
 
 def _generate_single_quant_config(quant_config: FullQuantizationConfig | WeightQuantizationConfig) -> OVWeightQuantizationConfig | OVQuantizationConfig:

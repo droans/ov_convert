@@ -11,7 +11,7 @@ class BaseModelExportSettingsConfigSchema(BaseModel):
   processor: bool = True
   preprocessor: bool = True
   model: bool = True
-  path: DirectoryPath
+  path: DirectoryPath | None = None
 
 class LlmModelExportSettingsConfigSchema(BaseModelExportSettingsConfigSchema):
   """Config schema for LLM model export settings."""
