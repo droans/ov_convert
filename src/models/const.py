@@ -3,7 +3,6 @@ import typing
 from typing import Literal
 
 BACKUP_PRECISION_TYPE = Literal["int8_sym", "int8_asym"]
-DEFAULT_BACKUP_PRECISION: BACKUP_PRECISION_TYPE = "int8_asym"
 
 GROUP_SIZE_FALLBACK_TYPE = Literal["error", "ignore", "adjust"]
 DEFAULT_GROUP_SIZE_FALLBACK: GROUP_SIZE_FALLBACK_TYPE = "adjust"

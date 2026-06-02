@@ -3,7 +3,6 @@ from pydantic import BaseModel, FilePath, ValidationError, field_validator
 
 from .const import (
   BACKUP_PRECISION_TYPE,
-  DEFAULT_BACKUP_PRECISION,
   DEFAULT_GROUP_SIZE_FALLBACK,
   GROUP_SIZE_FALLBACK_TYPE,
   SENSITIVITIY_METRIC_TYPE,
@@ -35,7 +34,7 @@ class WeightQuantizationConfig(BaseQuantizationConfig):
   """Quantization settings when applying weights-only quantization."""
 
   all_layers: bool | None
-  backup_precision: BACKUP_PRECISION_TYPE | None = DEFAULT_BACKUP_PRECISION
+  backup_precision: BACKUP_PRECISION_TYPE | None = None
   dq_group_size: int | None = None
   gptq: bool = False
   group_size: int = 128
