@@ -14,7 +14,7 @@ export:
   processor: false
   preprocessor: false
   path: /models/qwen3.5-0.8b
-  # path: /home/michael/projects/ov
+  model: false
 quantization:
   processor: Qwen/Qwen3.5-0.8B
   tokenizer: Qwen/Qwen3.5-0.8B
