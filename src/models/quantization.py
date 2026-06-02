@@ -62,9 +62,9 @@ class WeightQuantizationConfig(BaseQuantizationConfig):
   all_layers: bool | None = None
   sensitivity_metric: SENSITIVITIY_METRIC_TYPE | None = None
   quant_method: QUANT_METHOD_TYPE = DEFAULT_QUANT_METHOD_TYPE
-  scale_estimation: bool | None = None
-  gptq: bool | None = None
-  lora_correction: bool | None = None
+  scale_estimation: bool = False
+  gptq: bool = False
+  lora_correction: bool = False
   backup_precision: BACKUP_PRECISION_TYPE | None = None
   statistics_path: DirectoryPath | None = None
   group_size_fallback: GROUP_SIZE_FALLBACK_TYPE | None = None
