@@ -3,11 +3,9 @@ import typing
 from typing import Literal
 
 BACKUP_PRECISION_TYPE = Literal["int8_sym", "int8_asym"]
-BACKUP_PRECISIONS = list(typing.get_args(BACKUP_PRECISION_TYPE))
 DEFAULT_BACKUP_PRECISION: BACKUP_PRECISION_TYPE = "int8_asym"
 
 GROUP_SIZE_FALLBACK_TYPE = Literal["error", "ignore", "adjust"]
-GROUP_SIZE_FALLBACKS = list(typing.get_args(GROUP_SIZE_FALLBACK_TYPE))
 DEFAULT_GROUP_SIZE_FALLBACK: GROUP_SIZE_FALLBACK_TYPE = "adjust"
 
 SENSITIVITIY_METRIC_TYPE = Literal[
@@ -17,7 +15,6 @@ SENSITIVITIY_METRIC_TYPE = Literal[
   "max_activation_variance",
   "mean_activation_magnitude",
 ]
-SENSITIVITIY_METRICS = list(typing.get_args(SENSITIVITIY_METRIC_TYPE))
 
 TASKS_TYPE = Literal[
   "audio-classification",
@@ -56,4 +53,3 @@ TASKS_TYPE = Literal[
   "zero-shot-image-classification",
   "zero-shot-object-detection",
 ]
-TASKS = list(typing.get_args(TASKS_TYPE))
