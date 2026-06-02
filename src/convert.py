@@ -39,6 +39,8 @@ def get_config_from_file(config_file_path: str) -> ModelConfigurationInternal:
 def dump_config_to_file(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
   """Dumps the configuration to a file."""
   include_defaults = config.export.include_defaults
+  msg = f"⚠️[OVConvert]⚠️ Include defaults: {include_defaults}"
+  logger.error(msg)
 
   data = config.model_dump(exclude_unset=not include_defaults)
   yaml_str = yaml.safe_dump(data)
