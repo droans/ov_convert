@@ -51,3 +51,15 @@ TASKS_TYPE = Literal[
   "zero-shot-image-classification",
   "zero-shot-object-detection",
 ]
+
+QUANT_METHOD_TYPE = Literal["awq", "hybrid", "default"]
+DEFAULT_QUANT_METHOD_TYPE: QUANT_METHOD_TYPE = "default"
+
+LLM_DATASETS = [
+  "auto",
+  "wikitext2",
+  "c4",
+  "c4-new",
+  "gsm8k",
+]
+VLM_DATASETS = ["contextual"]
