@@ -61,14 +61,3 @@ class VlmModelExportSettingsConfigSchema(BaseModelExportSettingsConfigSchema):
 
     preprocessor: bool = True
 
-
-class BaseModelExportSettingsConfigSchema(BaseModel):
-    """Base config schema for model export settings."""
-
-    configuration: bool = False
-    include_defaults: bool = False
-    tokenizer: bool = True
-    processor: bool = True
-    preprocessor: bool = True
-    model: bool = True
-    path: DirectoryPath | None = None
