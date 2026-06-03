@@ -40,7 +40,7 @@ class LoadOptions(BaseModel):
     force_download: bool = False
     local_files_only: bool = False
     revision: str | None = None
-    device: str | None = "auto"
+    device: str = "auto"
     cache_dir: DirectoryPath | str = HUGGINGFACE_HUB_CACHE
     subfolder: str = ""
     trust_remote_code: bool = False
