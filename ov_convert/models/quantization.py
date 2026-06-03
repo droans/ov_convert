@@ -28,6 +28,21 @@ class IgnoredScopeConfig(BaseModel):
     validate_scopes: bool = True
 
 
+class VlmDatasetInputs(BaseModel):
+    """Config schema for VLM custom dataset inputs."""
+
+    image_url: str
+    instruction: str
+
+
+class VlmCustomDataset(BaseModel):
+    """Base config for custom datasets."""
+
+    id: str
+    split: str
+    inputs: VlmDatasetInputs
+
+
 class BaseQuantizationConfig(BaseModel):
     """Base quantization config for a model slice."""
 
@@ -35,7 +50,7 @@ class BaseQuantizationConfig(BaseModel):
     sym: bool = False
     ignored_scope: IgnoredScopeConfig | None = None
     num_samples: int | None = None
-    dataset: VLM_DATASET_TYPE | LLM_DATASET_TYPE | None = None
+    dataset: VLM_DATASET_TYPE | LLM_DATASET_TYPE | None | VlmCustomDataset = None
     tokenizer: str | None = None
     processor: str | None = None
     dtype: WEIGHT_FORMATS_TYPE | None = None
@@ -89,4 +104,4 @@ class VlmQuantizationSettingsSchema(BaseQuantizationSettingsSchema):
     """VLM Quantization Settings."""
 
     config: dict[str, FullQuantizationConfig | WeightQuantizationConfig] | None = None
-    dataset: VLM_DATASET_TYPE | None = None
+    dataset: VLM_DATASET_TYPE | None | VlmCustomDataset = None

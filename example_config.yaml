@@ -81,7 +81,7 @@ quantization:
   processor: Qwen/Qwen3.5-0.8B
   # Optional: Tokenizer used when loading the model pipeline. If unset, will attempt to infer. (Default: unset)
   tokenizer: Qwen/Qwen3.5-0.8B
-  # Optional: Dataset to use for data-aware quantization (Default: unset)
+  # Optional: Dataset to use for data-aware quantization. For VLMs, you may also pass custom datasets - see below for an example. (Default: unset)
   dataset: auto
   # Optional: Number of samples to take from dataset (Default: unset)
   num_samples: 64
@@ -106,10 +106,20 @@ quantization:
       subgraphs: []
       # Optional: If no nodes are discovered by a filter, will error out if set to true or continue if false. (Default: True)
       validate_scopes: true
-    # Optional: Number of samples to take from dataset (Default: unset)
+    # Optional: Number of samples to take from dataset You may also pass a string referring to a predefined dataset - see above for an example. (Default: unset)
     num_samples: 32
     # Optional: Dataset to use for data-aware quantization (Default: unset)
-    dataset: contextual
+    dataset:
+      # Required: ID of HF repository for the custom dataset
+      id: myrepo/customDataset
+      # Required: Split of dataset to use for training
+      split: train
+      # Required: Mapping of expected fields to their field names in the dataset
+      inputs:
+        # Required: Field of the dataset which contains the image url.
+        image_url: image
+        # Required: Field of the dataset which contains the instruction.
+        instruction: question
     # Optional: Tokenizer used when quantizing the model. If unset, will attempt to infer. (Default: unset)
     tokenizer: Qwen/Qwen3.5-0.8B
     # Optional: Processor used when quantizing the model. If unset, will attempt to infer. (Default: unset)
