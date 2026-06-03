@@ -1,9 +1,13 @@
 """Models used by script."""
 
-from .export import LlmModelExportSettingsConfigSchema, VlmModelExportSettingsConfigSchema
-from .load_options import LoadOptions
+from .misc import (
+  LlmModelExportSettingsConfigSchema,
+  LlmModelInformationConfig,
+  LoadOptions,
+  VlmModelExportSettingsConfigSchema,
+  VlmModelInformationConfig,
+)
 from .model import LlmModelConfiguration, VlmModelConfiguration
-from .model_information import LlmModelInformationConfig, VlmModelInformationConfig
 from .quantization import (
   FullQuantizationConfig,
   IgnoredScopeConfig,
