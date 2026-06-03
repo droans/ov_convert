@@ -9,6 +9,7 @@ from .const import (
   DEFAULT_QUANT_METHOD_TYPE,
   GROUP_SIZE_FALLBACK_TYPE,
   LLM_DATASET_TYPE,
+  PERCENTAGE_TYPE,
   QUANT_METHOD_TYPE,
   SENSITIVITIY_METRIC_TYPE,
   VLM_DATASET_TYPE,
@@ -43,22 +44,13 @@ class FullQuantizationConfig(BaseQuantizationConfig):
 
   fast_bias_correction: bool = True
   overflow_fix: Literal["enable", "disable", "first_layer_only"] = "disable"
-  smooth_quant_alpha: float | None = None
-
-  @field_validator("smooth_quant_alpha")
-  @classmethod
-  def validate_smooth_quant_alpha(cls, value: float | None) -> float | None:
-    """Validates smooth_quant_alpha."""
-    if value and (value != -1 or not 0 >= value >= 1):
-      msg = f"smooth_quant_alpha must be between 0-1 or equal to -1, got {value} instead."
-      raise ValidationError(msg)
-    return value
+  smooth_quant_alpha: PERCENTAGE_TYPE | Literal[-1] | None = None
 
 class WeightQuantizationConfig(BaseQuantizationConfig):
   """Weights-only quantization config for a model slice."""
 
   group_size: int | None = None
-  ratio: float = 1.0
+  ratio: PERCENTAGE_TYPE = 1.0
   all_layers: bool | None = None
   sensitivity_metric: SENSITIVITIY_METRIC_TYPE | None = None
   quant_method: QUANT_METHOD_TYPE = DEFAULT_QUANT_METHOD_TYPE
@@ -70,16 +62,6 @@ class WeightQuantizationConfig(BaseQuantizationConfig):
   group_size_fallback: GROUP_SIZE_FALLBACK_TYPE | None = None
   dq_group_size: int | None = None
 
-  @field_validator("ratio")
-  @classmethod
-  def validate_ratio(cls, value: int | None) -> int:
-    """Validates ratio."""
-    if value and value > 1.0:
-      msg = f"ratio must be less than or equal to 1.0, received {value}."
-      raise ValidationError(msg)
-    if value is None:
-      return 1
-    return value
 
 class BaseQuantizationSettingsSchema(BaseModel):
   """Base quantization config schema."""

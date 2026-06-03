@@ -1,5 +1,7 @@
 """Constants."""
-from typing import Literal
+from typing import Annotated, Literal
+
+from annotated_types import Ge, Le
 from pydantic import constr
 
 BACKUP_PRECISION_TYPE = Literal["int8_sym", "int8_asym"]
@@ -46,3 +48,5 @@ QUANT_MODES_TYPE = Literal[
   "int4_f8e4m3",
   "int4_f8e5m2",
 ]
+
+PERCENTAGE_TYPE = Annotated[float, Ge(0), Le(1)]
