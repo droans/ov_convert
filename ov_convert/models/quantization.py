@@ -72,7 +72,7 @@ class BaseQuantizationSettingsSchema(BaseModel):
     num_samples: int | None = None
     tokenizer: str | None = None
     processor: str | None = None
-    default_config: FullQuantizationConfig | WeightQuantizationConfig | None = None
+    default_config: FullQuantizationConfig | WeightQuantizationConfig | None = WeightQuantizationConfig()
 
 
 class LlmQuantizationSettingsSchema(BaseQuantizationSettingsSchema):
