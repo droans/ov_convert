@@ -19,7 +19,7 @@ class LlmModelConfiguration(BaseModel):
     """Config schema for LLMs."""
 
     model: LlmModelInformationConfig
-    export: LlmModelExportSettingsConfigSchema
+    export: LlmModelExportSettingsConfigSchema = LlmModelExportSettingsConfigSchema()
     quantization: LlmQuantizationSettingsSchema = LlmQuantizationSettingsSchema()
     load_options: LoadOptions = LoadOptions()
 
@@ -28,7 +28,7 @@ class VlmModelConfiguration(BaseModel):
     """Config schema for VLMs."""
 
     model: VlmModelInformationConfig
-    export: VlmModelExportSettingsConfigSchema
+    export: VlmModelExportSettingsConfigSchema = VlmModelExportSettingsConfigSchema()
     quantization: VlmQuantizationSettingsSchema = VlmQuantizationSettingsSchema()
     load_options: LoadOptions = LoadOptions()
 
