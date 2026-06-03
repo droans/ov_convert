@@ -1,7 +1,6 @@
 """Converts model."""
 
 import json
-import logging
 from pathlib import Path
 
 import yaml
@@ -23,6 +22,7 @@ from transformers import (
     TokenizersBackend,
 )
 
+from ov_convert.log import logger, setup_logging
 from ov_convert.models import LlmModelConfiguration, VlmModelConfiguration
 from ov_convert.models.model import ModelConfigurationInternal
 from ov_convert.models.quantization import (
@@ -31,8 +31,6 @@ from ov_convert.models.quantization import (
     VlmQuantizationSettingsSchema,
     WeightQuantizationConfig,
 )
-
-logger = logging.getLogger()
 
 
 def get_config_from_file(config_file_path: str) -> ModelConfigurationInternal:
@@ -67,6 +65,7 @@ def export_from_config_file(config_file_path: str) -> None:
 def export(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
     """Exports a model and its components using the passed configuration."""
     model_config = ModelConfigurationInternal(config=config)
+    setup_logging(model_config.config.log)
     export_conf = model_config.config.export
     export_tokenizer = export_conf.tokenizer
     export_processor = export_conf.processor
@@ -116,10 +115,12 @@ def export_model_tokenizer(model_config: ModelConfigurationInternal) -> None:
     trust_remote_code = conf.load_options.trust_remote_code
     save_dir = conf.export.path
     hf_tokenizer = AutoTokenizer.from_pretrained(
-        model_name, trust_remote_code=trust_remote_code,
+        model_name,
+        trust_remote_code=trust_remote_code,
     )
     ov_tokenizer, ov_detokenizer = convert_tokenizer(
-        hf_tokenizer, with_detokenizer=True,
+        hf_tokenizer,
+        with_detokenizer=True,
     )
     tokenizer_save_path = f"{save_dir}/openvino_tokenizer.xml"
     detokenizer_save_path = f"{save_dir}/openvino_detokenizer.xml"
@@ -134,7 +135,8 @@ def export_model_processor(model_config: ModelConfigurationInternal) -> None:
     trust_remote_code = conf.load_options.trust_remote_code
     save_dir = conf.export.path
     processor: TokenizersBackend = AutoProcessor.from_pretrained(
-        model_name, trust_remote_code=trust_remote_code,
+        model_name,
+        trust_remote_code=trust_remote_code,
     )
     assert save_dir
     processor.save_pretrained(save_dir)
@@ -147,7 +149,8 @@ def export_model_preprocessor(model_config: ModelConfigurationInternal) -> None:
     trust_remote_code = conf.load_options.trust_remote_code
     save_dir = conf.export.path
     preprocessor: TokenizersBackend = AutoImageProcessor.from_pretrained(
-        model_name, trust_remote_code=trust_remote_code,
+        model_name,
+        trust_remote_code=trust_remote_code,
     )
     assert save_dir
     preprocessor.save_pretrained(save_dir)

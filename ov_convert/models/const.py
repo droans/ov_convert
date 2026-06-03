@@ -1,5 +1,6 @@
 """Constants."""
 
+import typing
 from typing import Annotated, Literal
 
 from annotated_types import Ge, Le
@@ -51,3 +52,28 @@ QUANT_MODES_TYPE = Literal[
 ]
 
 PERCENTAGE_TYPE = Annotated[float, Ge(0), Le(1)]
+
+LOG_LEVELS_TYPE = Literal[
+    "debug",
+    "DEBUG",
+    "info",
+    "INFO",
+    "warn",
+    "WARN",
+    "error",
+    "ERROR",
+    "critical",
+    "CRITICAL",
+    "fatal",
+    "FATAL",
+]
+LOG_LEVELS = list(typing.get_args(LOG_LEVELS_TYPE))
+DEFAULT_LOG_LEVEL: LOG_LEVELS_TYPE = "error"
+DEFAULT_LOG_FORMAT = "%(asctime)s | %(levelname)s | %(message)s"
+DEFAULT_LOG_PATH = "./ov_convert.log"
+DEFAULT_LOG_FILTER_COMPONENTS = [
+    "httpx",
+    "httpcore.connection",
+    "httpcore.http11",
+    "filelock",
+]

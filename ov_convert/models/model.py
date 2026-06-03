@@ -6,6 +6,7 @@ from ov_convert.models.misc import (
     LlmModelExportSettingsConfigSchema,
     LlmModelInformationConfig,
     LoadOptions,
+    LogConfigSchema,
     VlmModelExportSettingsConfigSchema,
     VlmModelInformationConfig,
 )
@@ -20,6 +21,7 @@ class LlmModelConfiguration(BaseModel):
 
     model: LlmModelInformationConfig
     export: LlmModelExportSettingsConfigSchema = LlmModelExportSettingsConfigSchema()
+    log: LogConfigSchema = LogConfigSchema()
     quantization: LlmQuantizationSettingsSchema = LlmQuantizationSettingsSchema()
     load_options: LoadOptions = LoadOptions()
 
@@ -29,6 +31,7 @@ class VlmModelConfiguration(BaseModel):
 
     model: VlmModelInformationConfig
     export: VlmModelExportSettingsConfigSchema = VlmModelExportSettingsConfigSchema()
+    log: LogConfigSchema = LogConfigSchema()
     quantization: VlmQuantizationSettingsSchema = VlmQuantizationSettingsSchema()
     load_options: LoadOptions = LoadOptions()
 

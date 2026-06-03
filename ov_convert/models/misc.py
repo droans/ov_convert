@@ -5,6 +5,13 @@ from typing import Literal
 from huggingface_hub.constants import HUGGINGFACE_HUB_CACHE
 from pydantic import BaseModel, DirectoryPath
 
+from ov_convert.models.const import (
+    DEFAULT_LOG_FILTER_COMPONENTS,
+    DEFAULT_LOG_FORMAT,
+    DEFAULT_LOG_LEVEL,
+    LOG_LEVELS_TYPE,
+)
+
 
 #################################
 ###      Model Information     ##
@@ -61,3 +68,18 @@ class VlmModelExportSettingsConfigSchema(BaseModelExportSettingsConfigSchema):
 
     preprocessor: bool = True
 
+
+class LogFilters(BaseModel):
+    """Config schema for log filters."""
+
+    components: list[str] = DEFAULT_LOG_FILTER_COMPONENTS
+    messages: list[str] = []
+
+
+class LogConfigSchema(BaseModel):
+    """Config schema for log settings."""
+
+    level: LOG_LEVELS_TYPE = DEFAULT_LOG_LEVEL
+    format: str = DEFAULT_LOG_FORMAT
+    path: str | None = None
+    filters: LogFilters = LogFilters()
