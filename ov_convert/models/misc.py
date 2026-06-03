@@ -3,7 +3,7 @@
 from typing import Literal
 
 from huggingface_hub.constants import HUGGINGFACE_HUB_CACHE
-from pydantic import BaseModel, DirectoryPath
+from pydantic import BaseModel, DirectoryPath, NewPath
 
 from ov_convert.models.const import (
     DEFAULT_LOG_FILTER_COMPONENTS,
@@ -56,7 +56,7 @@ class BaseModelExportSettingsConfigSchema(BaseModel):
     processor: bool = True
     preprocessor: bool = True
     model: bool = True
-    path: DirectoryPath | None = None
+    path: NewPath | DirectoryPath | None = None
 
 
 class LlmModelExportSettingsConfigSchema(BaseModelExportSettingsConfigSchema):
