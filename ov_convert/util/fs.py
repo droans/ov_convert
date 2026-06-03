@@ -11,7 +11,7 @@ from ov_convert.util.log import logger
 
 
 def get_config_from_file(config_file_path: str) -> ModelConfigurationInternal:
-    """Loads the data from `config_file_path` into the ModelConfigurationInternal model."""
+    """Load the data from `config_file_path` into the ModelConfigurationInternal model."""
     with open(config_file_path) as f:
         model = ModelConfigurationInternal(config=yaml.safe_load(f.read()))
     if not model.config.export.path:
@@ -20,7 +20,7 @@ def get_config_from_file(config_file_path: str) -> ModelConfigurationInternal:
 
 
 def dump_config_to_file(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
-    """Dumps the configuration to a file."""
+    """Dump the configuration to a file."""
     include_defaults = config.export.include_defaults
     msg = f"Include defaults: {include_defaults}"
     logger.error(msg)
@@ -35,7 +35,7 @@ def dump_config_to_file(config: VlmModelConfiguration | LlmModelConfiguration) -
 
 
 def create_directory_if_nonexistant(directory: str | Path) -> None:
-    """Creates a directory if it doesn't exist. Raises an error if the parent does not exist."""
+    """Create a directory if it doesn't exist. Raises an error if the parent does not exist."""
     if isinstance(directory, str):
         directory = Path(directory)
     if directory.exists():

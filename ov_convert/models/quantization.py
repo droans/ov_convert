@@ -1,5 +1,6 @@
 # ty:ignore[invalid-type-form]  noqa: ERA001
 """Models for Quantization Settings."""
+
 from typing import Literal
 
 from pydantic import BaseModel, DirectoryPath

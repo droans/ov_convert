@@ -28,7 +28,8 @@ def cli_convert() -> None:
     file_path = args.config_file
     if not test_config_file(file_path):
         print(  # noqa: T201
-            f"`{file_path}` either doesn't exist, is not a YAML file, and/or contains invalid configuration.",
+            f"`{file_path}` either doesn't exist, is not a YAML file,"
+            "and/or contains invalid configuration.",
         )
         sys.exit()
     from ov_convert.convert import export_from_config_file

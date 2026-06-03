@@ -21,12 +21,12 @@ from ov_convert.util.ov_optimum import load_model
 
 
 def export_from_config_file(config_file_path: str) -> None:
-    """Exports a model using the config file passed."""
+    """Export a model using the config file passed."""
     export(get_config_from_file(config_file_path).config)
 
 
 def export(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
-    """Exports a model and its components using the passed configuration."""
+    """Export a model and its components using the passed configuration."""
     model_config = ModelConfigurationInternal(config=config)
     export_conf = model_config.config.export
     if not export_conf.path:
@@ -35,9 +35,7 @@ def export(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
     create_directory_if_nonexistant(export_conf.path)
     export_tokenizer = export_conf.tokenizer
     export_processor = export_conf.processor
-    export_preprocessor = (
-        isinstance(config, VlmModelConfiguration) and export_conf.preprocessor
-    )
+    export_preprocessor = isinstance(config, VlmModelConfiguration) and export_conf.preprocessor
     _export_model = export_conf.model
     export_config = export_conf.configuration
     setup_logging(model_config.config.log)
@@ -68,7 +66,7 @@ def export(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
 
 
 def export_model(model_config: ModelConfigurationInternal) -> None:
-    """Converts a model."""
+    """Convert a model."""
     save_dir = model_config.config.export.path
     model = load_model(model_config)
     assert save_dir
@@ -76,7 +74,7 @@ def export_model(model_config: ModelConfigurationInternal) -> None:
 
 
 def export_model_tokenizer(model_config: ModelConfigurationInternal) -> None:
-    """Exports the model tokenizer."""
+    """Export the model tokenizer."""
     conf = model_config.config
     model_name = conf.model.name
     trust_remote_code = conf.load_options.trust_remote_code
@@ -96,7 +94,7 @@ def export_model_tokenizer(model_config: ModelConfigurationInternal) -> None:
 
 
 def export_model_processor(model_config: ModelConfigurationInternal) -> None:
-    """Exports the model processor."""
+    """Export the model processor."""
     conf = model_config.config
     model_name = conf.model.name
     trust_remote_code = conf.load_options.trust_remote_code
@@ -110,7 +108,7 @@ def export_model_processor(model_config: ModelConfigurationInternal) -> None:
 
 
 def export_model_preprocessor(model_config: ModelConfigurationInternal) -> None:
-    """Exports the model pre-processor."""
+    """Export the model pre-processor."""
     conf = model_config.config
     model_name = conf.model.name
     trust_remote_code = conf.load_options.trust_remote_code

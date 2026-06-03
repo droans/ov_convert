@@ -12,7 +12,7 @@ class LogFilter(logging.Filter):
     """Filter logs based on user configuration."""
 
     def __init__(self, filters: LogFilters) -> None:
-        """Setup LogFilter."""
+        """Set up LogFilter."""
         super().__init__()
         self._filters = filters
 
@@ -24,11 +24,9 @@ class LogFilter(logging.Filter):
 
 
 def setup_logging(log_config: LogConfigSchema) -> None:
-    """Sets the logging settings based on the configuration."""
+    """Set the logging settings based on the configuration."""
     handler = (
-        logging.FileHandler(log_config.path, "w+")
-        if log_config.path
-        else logging.StreamHandler()
+        logging.FileHandler(log_config.path, "w+") if log_config.path else logging.StreamHandler()
     )
     handler.addFilter(LogFilter(log_config.filters))
     handler.setFormatter(logging.Formatter(log_config.format))
