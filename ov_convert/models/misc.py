@@ -27,6 +27,19 @@ class LlmModelInformationConfig(BaseModelInformationConfig):
     type: Literal["llm"]
 
 
+class LoadOptions(BaseModel):
+    """Load options config schema."""
+
+    force_download: bool = False
+    local_files_only: bool = False
+    revision: str | None = None
+    device: str | None = "auto"
+    cache_dir: DirectoryPath | str = HUGGINGFACE_HUB_CACHE
+    subfolder: str = ""
+    trust_remote_code: bool = False
+    ov_config: dict = {}
+
+
 class BaseModelExportSettingsConfigSchema(BaseModel):
     """Base config schema for model export settings."""
 
@@ -47,19 +60,6 @@ class VlmModelExportSettingsConfigSchema(BaseModelExportSettingsConfigSchema):
     """Config schema for VLM model export settings."""
 
     preprocessor: bool = True
-
-
-class LoadOptions(BaseModel):
-    """Load options config schema."""
-
-    force_download: bool = False
-    local_files_only: bool = False
-    revision: str | None = None
-    device: str | None = "auto"
-    cache_dir: DirectoryPath | str = HUGGINGFACE_HUB_CACHE
-    subfolder: str = ""
-    trust_remote_code: bool = False
-    ov_config: dict = {}
 
 
 class BaseModelExportSettingsConfigSchema(BaseModel):
