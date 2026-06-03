@@ -22,7 +22,6 @@ from transformers import (
     TokenizersBackend,
 )
 
-from ov_convert.log import logger, setup_logging
 from ov_convert.models import LlmModelConfiguration, VlmModelConfiguration
 from ov_convert.models.model import ModelConfigurationInternal
 from ov_convert.models.quantization import (
@@ -31,6 +30,7 @@ from ov_convert.models.quantization import (
     VlmQuantizationSettingsSchema,
     WeightQuantizationConfig,
 )
+from ov_convert.util.log import logger, setup_logging
 
 
 def get_config_from_file(config_file_path: str) -> ModelConfigurationInternal:
