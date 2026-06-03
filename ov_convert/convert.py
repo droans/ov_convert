@@ -45,7 +45,7 @@ def get_config_from_file(config_file_path: str) -> ModelConfigurationInternal:
 def dump_config_to_file(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
     """Dumps the configuration to a file."""
     include_defaults = config.export.include_defaults
-    msg = f"⚠️[OVConvert]⚠️ Include defaults: {include_defaults}"
+    msg = f"Include defaults: {include_defaults}"
     logger.error(msg)
 
     # Must dump to json and reload due to PosixPath objects in schema
@@ -74,30 +74,30 @@ def export(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
     )
     _export_model = export_conf.model
     export_config = export_conf.configuration
-    msg = f"⚠️[OVConvert]⚠️ Exporting {config.model.name}"
+    msg = f"Exporting {config.model.name}"
     logger.info(msg)
 
     # Export tokenizers, processors first. If they have an issue, we should
     if export_tokenizer:
-        logger.info("⚠️[OVConvert]⚠️ Exporting tokenizer.")
+        logger.info("Exporting tokenizer.")
         export_model_tokenizer(model_config)
-        logger.info("⚠️[OVConvert]⚠️ Tokenizer exported.")
+        logger.info("Tokenizer exported.")
     if export_processor:
-        logger.info("⚠️[OVConvert]⚠️ Exporting processor.")
+        logger.info("Exporting processor.")
         export_model_processor(model_config)
-        logger.info("⚠️[OVConvert]⚠️ Processor exported.")
+        logger.info("Processor exported.")
     if export_preprocessor:
-        logger.info("⚠️[OVConvert]⚠️ Exporting preprocessor.")
+        logger.info("Exporting preprocessor.")
         export_model_preprocessor(model_config)
-        logger.info("⚠️[OVConvert]⚠️ Preprocessor exported.")
+        logger.info("Preprocessor exported.")
     if _export_model:
-        logger.info("⚠️[OVConvert]⚠️ Exporting model.")
+        logger.info("Exporting model.")
         export_model(model_config)
-        logger.info("⚠️[OVConvert]⚠️ Model exported.")
+        logger.info("Model exported.")
     if export_config:
-        logger.info("⚠️[OVConvert]⚠️ Exporting config.")
+        logger.info("Exporting config.")
         dump_config_to_file(config)
-        logger.info("⚠️[OVConvert]⚠️ Config exported.")
+        logger.info("Config exported.")
 
 
 def export_model(model_config: ModelConfigurationInternal) -> None:
