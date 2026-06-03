@@ -217,11 +217,9 @@ def generate_ov_pipeline_config(
 def load_model(model_config: ModelConfigurationInternal) -> OVBaseModel:
     """Loads a model using the passed configuration."""
     conf = model_config.config
+    load_opts = conf.load_options.model_dump()
     model_name = conf.model.name
     model_type = conf.model.type
-    trust_remote_code = conf.load_options.trust_remote_code
-    device = conf.load_options.device or "auto"
-    ov_config = conf.load_options.ov_config
     quant_config = generate_ov_pipeline_config(conf.quantization)
     processor = conf.quantization.processor
     tokenizer = conf.quantization.tokenizer
@@ -230,11 +228,9 @@ def load_model(model_config: ModelConfigurationInternal) -> OVBaseModel:
     return cls.from_pretrained(
         model_name,
         export=True,
-        trust_remote_code=trust_remote_code,
-        device=device,
-        ov_config=ov_config,
         compile=False,
         quantization_config=quant_config,
         processor=processor,
         tokenizer=tokenizer,
+        **load_opts,
     )
