@@ -1,5 +1,6 @@
 """Constants."""
 from typing import Literal
+from pydantic import constr
 
 BACKUP_PRECISION_TYPE = Literal["int8_sym", "int8_asym"]
 
@@ -23,7 +24,9 @@ LLM_DATASETS = [
   "c4-new",
   "gsm8k",
 ]
+LLM_DATASET_TYPE= constr(pattern=rf"({'|'.join(LLM_DATASETS)})(:seq_len=\d+)?$")
 VLM_DATASETS = ["contextual"]
+VLM_DATASET_TYPE= constr(pattern=rf"({'|'.join(VLM_DATASETS)})(:seq_len=\d+)?$")
 
 WEIGHT_FORMATS_TYPE = Literal[
   "fp32",

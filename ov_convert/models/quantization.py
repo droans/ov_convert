@@ -1,17 +1,17 @@
+# ty:ignore[invalid-type-form]
 """Models for Quantization Settings."""
-import re
 from typing import Literal
 
-from pydantic import BaseModel, DirectoryPath, ValidationError, field_validator
+from pydantic import BaseModel, DirectoryPath
 
 from .const import (
   BACKUP_PRECISION_TYPE,
   DEFAULT_QUANT_METHOD_TYPE,
   GROUP_SIZE_FALLBACK_TYPE,
-  LLM_DATASETS,
+  LLM_DATASET_TYPE,
   QUANT_METHOD_TYPE,
   SENSITIVITIY_METRIC_TYPE,
-  VLM_DATASETS,
+  VLM_DATASET_TYPE,
   WEIGHT_FORMATS_TYPE,
 )
 
@@ -32,7 +32,7 @@ class BaseQuantizationConfig(BaseModel):
   sym: bool = False
   ignored_scope: IgnoredScopeConfig | None = None
   num_samples: int | None = None
-  dataset: str | None = None
+  dataset: VLM_DATASET_TYPE | LLM_DATASET_TYPE | None = None
   tokenizer: str | None = None
   processor: str | None = None
   dtype: WEIGHT_FORMATS_TYPE | None = None
@@ -87,41 +87,17 @@ class BaseQuantizationSettingsSchema(BaseModel):
   num_samples: int | None = None
   tokenizer: str | None = None
   processor: str | None = None
-  dataset: str | None = None
   default_config: FullQuantizationConfig | WeightQuantizationConfig | None = None
-
-  @classmethod
-  def _validate_dataset(cls, datasets: list[str], value: str | None) -> bool:
-    """Returns TRUE if dataset is valid."""
-    joined = "|".join(datasets)
-    regex = rf"({joined})(:seq_len=\d+)?$"
-    return value is None or re.fullmatch(regex, value) is not None
-
 
 class LlmQuantizationSettingsSchema(BaseQuantizationSettingsSchema):
   """LLM Quantization Settings."""
 
   config: FullQuantizationConfig | WeightQuantizationConfig | None = None
-
-  @field_validator("dataset")
-  @classmethod
-  def validate_dataset(cls, value: str | None) -> str | None:
-    """Validates argument for dataset is valid."""
-    if not cls._validate_dataset(LLM_DATASETS, value):
-      msg = f"`{value}` is invalid value for dataset. Expected `({'|'.join(LLM_DATASETS)})[:seq_len=XX]`"
-      raise ValidationError(msg)
+  dataset: LLM_DATASET_TYPE | None = None
 
 
 class VlmQuantizationSettingsSchema(BaseQuantizationSettingsSchema):
   """VLM Quantization Settings."""
 
   config: dict[str, FullQuantizationConfig | WeightQuantizationConfig] | None = None
-
-  @field_validator("dataset")
-  @classmethod
-  def validate_dataset(cls, value: str | None) -> str | None:
-    """Validates argument for dataset is valid."""
-    if not cls._validate_dataset(VLM_DATASETS, value):
-      msg = f"`{value}` is invalid value for dataset. Expected `({'|'.join(VLM_DATASETS)})[:seq_len=XX]`"
-      raise ValidationError(msg)
-
+  dataset: VLM_DATASET_TYPE | None = None
