@@ -1,26 +1,170 @@
+# Required: Basic model information
 model:
+  # Required: HF Repository/Local path to model (Required; No default)
   name: Qwen/Qwen3.5-0.8B
+  # Required: Type of model to load (Required; No default)
   type: vlm
+
 load_options:
+  # Optional: Force the model to be downloaded even if already in cache (Default: Shown below)
+  force_download: false
+  # Optional: Always grab the model from cache (Default: Shown below)
+  local_files_only: false
+  # Optional: Model revision to use (Default: unset)
+  revision: None
+  # Optional Directory to cache model (Default: HUGGINGFACE_HUB_CACHE)
+  cache_dir: /model_cache
+  # Optional: Subfolder to use for model cache (Default: '')
+  subfolder: model_folder
+  # Optional: Allow for remote code to be run when exporting the model. Required for some to be converted. (Default: False)
   trust_remote_code: true
+  # Optional: Device to load model onto. CPU/GPU are both usually fine as the model will almost always be loaded into system memory. (Default: auto)
   device: GPU
+  # Optional: Any configuration to pass to OpenVINO when loading the model. These options are dependant on a lot of factors. 
+  # You likely will already know if this should be set. (Default: {})
   ov_config:
     PERFORMANCE_HINT: LATENCY
+
+# Optional: Logging settings
+log:
+  # Optional: Level to log; (Default: Info)
+  level: debug 
+  # Optional: Format to use for log messages For possible options, see https://docs.python.org/3/library/logging.html#logrecord-attributes. (Default: Shown below)
+  format: "%(asctime)s -|- %(levelname)s -|-%(message)s"
+  # Optional: Path to save log file. If unset, logs will be sent to stdout.
+  # Recommended to use the same location as the model export. (Default: unset)
+  path: ./ov_config.log
   
+  # Optional: Filters to apply to logger (Default: Shown below)
+  filters:
+    # Optional: Components (logger names) to exclude (Default: Shown below)
+    components:
+      - filelock
+      - httpcore.connection
+      - httpcore.http11
+      - httpx
+    # Optional: Apply filter to messages that contain any string below. (Default: Shown below)
+    messages: []
+
+# Optional when output path can be determined by the location of the config file. Required otherwise.
+# Settings used when exporting.
 export:
+  # Optional: Save settings used when exporting model to a config file.
+  # If you are running this via a config file, this is likely unnecessary. (Default: False)
   configuration: true
+  # Optional: If config file is to be saved, include default configuration values. (Default: False)
   include_defaults: true
+  # Optional: Export tokenizer/detokenizer with the model (Default: Shown below)
   tokenizer: true
+  # Optional: Export processor with the model (Default: Shown below)
   processor: false
+  # Optional: Export pre-processor (image processor) with the model. Only used with VLMs. (Default: Shown below)
   preprocessor: false
+  # Optional: Export model. Useful to set if you don't need the model itself but just a component. (Default: Shown below)
+  model: true
+  # Optional when output path can be determined by the location of the config file. Required otherwise.
+  # Directory to save exports. (Default: unset)
   path: /models/qwen3.5-0.8b
-  model: false
+ 
+# Settings used when quantizing the model.
+# optimum-intel can be a bit confusing when it comes to these settings. Here are the basics:
+# **LLMs:**
+#   * Apply quantization for the language model at the `config` level. 
+#   * To apply quantization to all other unnamed of the model, set them under `default_config`.
+#   * All other options are applied solely at the pipeline level.
+# **VLMs:**
+#   * To apply quantization to individual parts of the model, apply them under `config` with their model name as the key.
+#   * To apply quantization to all other unnamed parts of the model, set them under `default_config`.
+#   * All other options are applied solely at the pipeline level.
 quantization:
+  # Optional: Processor used when loading the model pipeline. If unset, will attempt to infer. (Default: unset)
   processor: Qwen/Qwen3.5-0.8B
+  # Optional: Tokenizer used when loading the model pipeline. If unset, will attempt to infer. (Default: unset)
   tokenizer: Qwen/Qwen3.5-0.8B
+  # Optional: Dataset to use for data-aware quantization (Default: unset)
+  dataset: auto
+  # Optional: Number of samples to take from dataset (Default: unset)
+  num_samples: 64
+  # Optional: Default config to apply to models which are not set at the `config` level. ()
   default_config:
     quant_method: default
   config:
+
+    ######################################################################
+    ###         LLM Weights-Only and Full Quantization Example         ###
+    ###  Options below can be used with both full and weights quants.  ###
+    ######################################################################
+    # Optional: Bits to quantize the model to. Should be considered together with `dtype`. (Default: 8)
+    bits: 4
+    # Optional: Use symmetric quantization (Default: Shown below)
+    sym: False
+    # Optional: Model scopes to ignore during quantization. (Default: unset)
+    ignored_scope:
+      names: []
+      patterns: [".*router.*"]
+      types: []
+      subgraphs: []
+      # Optional: If no nodes are discovered by a filter, will error out if set to true or continue if false. (Default: True)
+      validate: true
+    # Optional: Number of samples to take from dataset (Default: unset)
+    num_samples: 32
+    # Optional: Dataset to use for data-aware quantization (Default: unset)
+    dataset: contextual
+    # Optional: Tokenizer used when quantizing the model. If unset, will attempt to infer. (Default: unset)
+    tokenizer: Qwen/Qwen3.5-0.8B
+    # Optional: Processor used when quantizing the model. If unset, will attempt to infer. (Default: unset)
+    processor: Qwen/Qwen3.5-0.8B
+    # Optional: DType to quantize the model to. Should be considered together with `bits`. 
+    # If unset, optimum will attempt to determine the best value (Default: unset)
+    dtype: int4
+    # Optional: kwargs to pass when loading model. (Default: unset)
+    kwargs: {}
+
+    ######################################################################
+    ###             LLM Weights-Only Quantization Example              ###
+    ### Options below can ONLY be used when quantizing at weights-only ###
+    ######################################################################
+    # Optional: Default group size to use when quantizing the model. (Default: unset)
+    group_size: 64
+    # Optional: When applying 4-bit quantization, controls what percentage of layers are quantized to 4-bit. 
+    # Remaining layers are quantized to 8-bit. (Default: 1.0)
+    ratio: 0.8
+    # Optional: Apply quantization to embeddings and last matmul layer (default: unset)
+    all_layers: false
+    # Optional: Sensitivity metric to use when assigning quant precision to layers (Default: unset)
+    sensitivity_metric: None
+    # Optional: Quantization method to use (Default: default)
+    quant_method: awq
+    # Optional: Apply algorithm to minimize L2 error when quantizing the model. Requires dataset. (Default: unset)
+    scale_estimation: False
+    # Optional: Apply GPTQ to minimize difference between activations of original and compressed model. (Default: unset)
+    gptq: false
+    # Optional: Apply LoRA correction algorithm to recover accuracy after weight compression (Default: unset)
+    lora_correction: false
+    # Optional: Apply backup precision for mixed-precision weight compression. Only valid for 4-bit compression. (Default: unset)
+    backup_precision: false
+    # Optional: Path to dump/load data-aware quantization statistics. Useful when quantizing a model multiple times to avoid recomputing the statistics. (Default: unset)
+    statistics_path: None
+    # Optional: How optimum should handle situations where the group size is unsupported. (Default: unset)
+    group_size_fallback: adjust
+    # Optional: Group size to use for dynamic quantization. (Default: unset)
+    dq_group_size: 128
+    
+    ######################################################################
+    ###                  LLM Full Quantization Example                 ###
+    ######################################################################
+    # Apply fast or full bias correction algorithm (Default: shown below)
+    fast_bias_correction: true
+    # Control overflow fix setting (Default: shown below)
+    overflow_fix: disable
+    # SmoothQuant alpha parameter to improve distribution of activations before matmul layers (Default: unset)
+    smooth_quant_alpha: 1.0
+
+
+    ######################################################################
+    ###              VLM Weights-Only Quantization Example             ###
+    ###              See above for parameter descriptions              ###
+    ######################################################################
     lm_model:
       processor: Qwen/Qwen3.5-0.8B
       tokenizer: Qwen/Qwen3.5-0.8B
@@ -44,3 +188,5 @@ quantization:
       tokenizer: Qwen/Qwen3.5-0.8B
       quant_method: default
       bits: 4
+
+      
