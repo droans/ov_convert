@@ -116,10 +116,10 @@ def export_model_tokenizer(model_config: ModelConfigurationInternal) -> None:
     trust_remote_code = conf.load_options.trust_remote_code
     save_dir = conf.export.path
     hf_tokenizer = AutoTokenizer.from_pretrained(
-        model_name, trust_remote_code=trust_remote_code
+        model_name, trust_remote_code=trust_remote_code,
     )
     ov_tokenizer, ov_detokenizer = convert_tokenizer(
-        hf_tokenizer, with_detokenizer=True
+        hf_tokenizer, with_detokenizer=True,
     )
     tokenizer_save_path = f"{save_dir}/openvino_tokenizer.xml"
     detokenizer_save_path = f"{save_dir}/openvino_detokenizer.xml"
@@ -134,7 +134,7 @@ def export_model_processor(model_config: ModelConfigurationInternal) -> None:
     trust_remote_code = conf.load_options.trust_remote_code
     save_dir = conf.export.path
     processor: TokenizersBackend = AutoProcessor.from_pretrained(
-        model_name, trust_remote_code=trust_remote_code
+        model_name, trust_remote_code=trust_remote_code,
     )
     assert save_dir
     processor.save_pretrained(save_dir)
@@ -147,7 +147,7 @@ def export_model_preprocessor(model_config: ModelConfigurationInternal) -> None:
     trust_remote_code = conf.load_options.trust_remote_code
     save_dir = conf.export.path
     preprocessor: TokenizersBackend = AutoImageProcessor.from_pretrained(
-        model_name, trust_remote_code=trust_remote_code
+        model_name, trust_remote_code=trust_remote_code,
     )
     assert save_dir
     preprocessor.save_pretrained(save_dir)
