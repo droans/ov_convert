@@ -20,7 +20,7 @@ load_options:
   trust_remote_code: true
   # Optional: Device to load model onto. CPU/GPU are both usually fine as the model will almost always be loaded into system memory. (Default: auto)
   device: GPU
-  # Optional: Any configuration to pass to OpenVINO when loading the model. These options are dependant on a lot of factors. 
+  # Optional: Any configuration to pass to OpenVINO when loading the model. These options are dependant on a lot of factors.
   # You likely will already know if this should be set. (Default: {})
   ov_config:
     PERFORMANCE_HINT: LATENCY
@@ -28,13 +28,13 @@ load_options:
 # Optional: Logging settings
 log:
   # Optional: Level to log; (Default: Info)
-  level: debug 
+  level: debug
   # Optional: Format to use for log messages For possible options, see https://docs.python.org/3/library/logging.html#logrecord-attributes. (Default: Shown below)
   format: "%(asctime)s -|- %(levelname)s -|-%(message)s"
   # Optional: Path to save log file. If unset, logs will be sent to stdout.
   # Recommended to use the same location as the model export. (Default: unset)
   path: ./ov_config.log
-  
+
   # Optional: Filters to apply to logger (Default: Shown below)
   filters:
     # Optional: Components (logger names) to exclude (Default: Shown below)
@@ -65,11 +65,11 @@ export:
   # Optional when output path can be determined by the location of the config file. Required otherwise.
   # Directory to save exports. (Default: unset)
   path: /models/qwen3.5-0.8b
- 
+
 # Settings used when quantizing the model.
 # optimum-intel can be a bit confusing when it comes to these settings. Here are the basics:
 # **LLMs:**
-#   * Apply quantization for the language model at the `config` level. 
+#   * Apply quantization for the language model at the `config` level.
 #   * To apply quantization to all other unnamed of the model, set them under `default_config`.
 #   * All other options are applied solely at the pipeline level.
 # **VLMs:**
@@ -114,7 +114,7 @@ quantization:
     tokenizer: Qwen/Qwen3.5-0.8B
     # Optional: Processor used when quantizing the model. If unset, will attempt to infer. (Default: unset)
     processor: Qwen/Qwen3.5-0.8B
-    # Optional: DType to quantize the model to. Should be considered together with `bits`. 
+    # Optional: DType to quantize the model to. Should be considered together with `bits`.
     # If unset, optimum will attempt to determine the best value (Default: unset)
     dtype: int4
     # Optional: kwargs to pass when loading model. (Default: unset)
@@ -126,7 +126,7 @@ quantization:
     ######################################################################
     # Optional: Default group size to use when quantizing the model. (Default: unset)
     group_size: 64
-    # Optional: When applying 4-bit quantization, controls what percentage of layers are quantized to 4-bit. 
+    # Optional: When applying 4-bit quantization, controls what percentage of layers are quantized to 4-bit.
     # Remaining layers are quantized to 8-bit. (Default: 1.0)
     ratio: 0.8
     # Optional: Apply quantization to embeddings and last matmul layer (default: unset)
@@ -149,7 +149,7 @@ quantization:
     group_size_fallback: adjust
     # Optional: Group size to use for dynamic quantization. (Default: unset)
     dq_group_size: 128
-    
+
     ######################################################################
     ###                  LLM Full Quantization Example                 ###
     ######################################################################
@@ -188,5 +188,3 @@ quantization:
       tokenizer: Qwen/Qwen3.5-0.8B
       quant_method: default
       bits: 4
-
-      

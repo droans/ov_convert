@@ -1,4 +1,4 @@
-# ty:ignore[invalid-type-form]
+# ty:ignore[invalid-type-form]  noqa: ERA001
 """Models for Quantization Settings."""
 from typing import Literal
 
@@ -72,7 +72,9 @@ class BaseQuantizationSettingsSchema(BaseModel):
     num_samples: int | None = None
     tokenizer: str | None = None
     processor: str | None = None
-    default_config: FullQuantizationConfig | WeightQuantizationConfig | None = WeightQuantizationConfig()
+    default_config: FullQuantizationConfig | WeightQuantizationConfig | None = (
+        WeightQuantizationConfig()
+    )
 
 
 class LlmQuantizationSettingsSchema(BaseQuantizationSettingsSchema):
