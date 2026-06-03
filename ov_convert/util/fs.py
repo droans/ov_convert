@@ -32,3 +32,15 @@ def dump_config_to_file(config: VlmModelConfiguration | LlmModelConfiguration) -
     save_path = f"{config.export.path}/conversion_config.yaml"
     with open(save_path, "w") as f:
         f.write(yaml_str)
+
+
+def create_directory_if_nonexistant(directory: str | Path) -> None:
+    """Creates a directory if it doesn't exist. Raises an error if the parent does not exist."""
+    if isinstance(directory, str):
+        directory = Path(directory)
+    if directory.exists():
+        return
+    if not directory.parent.exists():
+        msg = f"Cannot create path at {directory}. Does the parent directory exist?"
+        raise FileNotFoundError(msg)
+    Path.mkdir(directory)

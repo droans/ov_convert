@@ -26,7 +26,11 @@ from ov_convert.models.quantization import (
     VlmQuantizationSettingsSchema,
     WeightQuantizationConfig,
 )
-from ov_convert.util.fs import dump_config_to_file, get_config_from_file
+from ov_convert.util.fs import (
+    create_directory_if_nonexistant,
+    dump_config_to_file,
+    get_config_from_file,
+)
 from ov_convert.util.log import logger, setup_logging
 
 
@@ -39,6 +43,10 @@ def export(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
     """Exports a model and its components using the passed configuration."""
     model_config = ModelConfigurationInternal(config=config)
     export_conf = model_config.config.export
+    if not export_conf.path:
+        msg = "Configuration must include a file path at `export.path`."
+        raise FileNotFoundError(msg)
+    create_directory_if_nonexistant(export_conf.path)
     export_tokenizer = export_conf.tokenizer
     export_processor = export_conf.processor
     export_preprocessor = (
