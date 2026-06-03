@@ -25,7 +25,7 @@ class IgnoredScopeConfig(BaseModel):
     patterns: list[str] = []
     types: list[str] = []
     subgraphs: list[str] = []
-    validate: bool = True
+    validate_scopes: bool = True
 
 
 class BaseQuantizationConfig(BaseModel):

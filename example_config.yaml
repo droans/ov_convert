@@ -105,7 +105,7 @@ quantization:
       types: []
       subgraphs: []
       # Optional: If no nodes are discovered by a filter, will error out if set to true or continue if false. (Default: True)
-      validate: true
+      validate_scopes: true
     # Optional: Number of samples to take from dataset (Default: unset)
     num_samples: 32
     # Optional: Dataset to use for data-aware quantization (Default: unset)

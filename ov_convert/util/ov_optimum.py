@@ -44,6 +44,9 @@ def generate_ov_component_quant_config(
     """Generate the quantization config for a component in the model."""
     kwargs = config.kwargs
     passed_config: dict = config.model_dump()
+    if passed_config["ignored_scope"] is not None:
+        validate = passed_config["ignored_scope"].pop("validate_scopes")
+        passed_config["ignored_scope"]["validate"] = validate
     passed_config.pop("kwargs")
     passed_config = {**passed_config, **(kwargs or {})}
     passed_config["ignored_scope"] = (
