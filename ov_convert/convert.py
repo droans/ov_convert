@@ -38,7 +38,6 @@ def export_from_config_file(config_file_path: str) -> None:
 def export(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
     """Exports a model and its components using the passed configuration."""
     model_config = ModelConfigurationInternal(config=config)
-    setup_logging(model_config.config.log)
     export_conf = model_config.config.export
     export_tokenizer = export_conf.tokenizer
     export_processor = export_conf.processor
@@ -47,6 +46,7 @@ def export(config: VlmModelConfiguration | LlmModelConfiguration) -> None:
     )
     _export_model = export_conf.model
     export_config = export_conf.configuration
+    setup_logging(model_config.config.log)
     msg = f"Exporting {config.model.name}"
     logger.info(msg)
 
