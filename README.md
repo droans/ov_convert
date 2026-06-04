@@ -7,6 +7,18 @@ Utility to convert LLMs/VLMs to OpenVINO format using YAML config files or confi
 * Reproducible - By using configuration files, you can keep accurate records of the configuration settings applied to each model. This utility also supports outputting the passed config to file, allowing you to keep record of any exports performed programmatically.
 * Has both a CLI interface (`ov-convert`) and programmatic interface.
 
+## Installing
+
+This project can be installed via `pip`:
+
+```sh
+pip install git+https://github.com/droans/ov_convert@v0.2.0
+```
+
+Update `v0.2.0` with the version you intend to use.
+
+If you have issues with dependencies (IE - `optimum` is often unhappy with the version of `transformers` required), add `--no-deps` to the end of the command. You may need to install the dependencies manually - see [pyproject.toml](pyproject.toml) for the requirements.
+
 
 ## Usage:
 
