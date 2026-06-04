@@ -1,12 +1,13 @@
 """Converts model."""
 
+from typing import TYPE_CHECKING
+
 from openvino import save_model
 from openvino_tokenizers import convert_tokenizer
 from transformers import (
     AutoImageProcessor,
     AutoProcessor,
     AutoTokenizer,
-    TokenizersBackend,
 )
 
 from ov_convert.models import LlmModelConfiguration, VlmModelConfiguration
@@ -18,6 +19,9 @@ from ov_convert.util.fs import (
 )
 from ov_convert.util.log import logger, setup_logging
 from ov_convert.util.ov_optimum import load_model
+
+if TYPE_CHECKING:
+    from transformers import TokenizersBackend
 
 
 def export_from_config_file(config_file_path: str) -> None:
