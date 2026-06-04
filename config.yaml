@@ -1,0 +1,56 @@
+export:
+  configuration: true
+  include_defaults: false
+  model: true
+  path: /models/qwen3.5-0.8b-0603
+  preprocessor: false
+  processor: false
+  tokenizer: false
+load_options:
+  device: GPU
+  ov_config:
+    PERFORMANCE_HINT: LATENCY
+  trust_remote_code: true
+model:
+  name: Qwen/Qwen3.5-0.8B
+  type: vlm
+log:
+  level: debug
+  path: /models/qwen3.5-0.8b-0603/ov_convert.log
+quantization:
+  dataset:
+    id: toloka/WSDMCup2023
+    split: train
+    inputs:
+      image_url: image
+      instruction: question
+  config:
+    lm_model:
+      bits: 4
+      dtype: int4
+      dataset:
+        id: toloka/WSDMCup2023
+        split: train
+        inputs:
+          image_url: image
+          instruction: question
+      group_size: 64
+      group_size_fallback: adjust
+      processor: Qwen/Qwen3.5-0.8B
+      sym: false
+      tokenizer: Qwen/Qwen3.5-0.8B
+      quant_method: awq
+    text_embeddings_model:
+      bits: 8
+      processor: Qwen/Qwen3.5-0.8B
+      quant_method: default
+      tokenizer: Qwen/Qwen3.5-0.8B
+    vision_embeddings_merger_model:
+      bits: 8
+      processor: Qwen/Qwen3.5-0.8B
+      quant_method: default
+      tokenizer: Qwen/Qwen3.5-0.8B
+  default_config:
+    quant_method: default
+  processor: Qwen/Qwen3.5-0.8B
+  tokenizer: Qwen/Qwen3.5-0.8B
