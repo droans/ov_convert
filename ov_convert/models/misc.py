@@ -2,7 +2,6 @@
 
 from typing import Literal
 
-from huggingface_hub.constants import HUGGINGFACE_HUB_CACHE
 from pydantic import BaseModel, DirectoryPath, NewPath
 
 from ov_convert.models.const import (
@@ -41,7 +40,7 @@ class LoadOptions(BaseModel):
     local_files_only: bool = False
     revision: str | None = None
     device: str = "auto"
-    cache_dir: DirectoryPath | str = HUGGINGFACE_HUB_CACHE
+    cache_dir: DirectoryPath | str | None = None
     subfolder: str = ""
     trust_remote_code: bool = False
     ov_config: dict = {}
