@@ -4,6 +4,10 @@ from typing import TYPE_CHECKING
 
 from openvino import save_model
 from openvino_tokenizers import convert_tokenizer
+from optimum.intel.openvino.utils import (
+    OV_DETOKENIZER_NAME,
+    OV_TOKENIZER_NAME,
+)
 from transformers import (
     AutoImageProcessor,
     AutoProcessor,
@@ -91,8 +95,8 @@ def export_model_tokenizer(model_config: ModelConfigurationInternal) -> None:
         hf_tokenizer,
         with_detokenizer=True,
     )
-    tokenizer_save_path = f"{save_dir}/openvino_tokenizer.xml"
-    detokenizer_save_path = f"{save_dir}/openvino_detokenizer.xml"
+    tokenizer_save_path = f"{save_dir}/{OV_TOKENIZER_NAME}"
+    detokenizer_save_path = f"{save_dir}/{OV_DETOKENIZER_NAME}"
     save_model(ov_tokenizer, tokenizer_save_path)
     save_model(ov_detokenizer, detokenizer_save_path)
 
