@@ -27,6 +27,10 @@ from ov_convert.util.ov_optimum import load_model
 if TYPE_CHECKING:
     from transformers import TokenizersBackend
 
+# Sub placeholders in consts, substituting them out.
+_OV_TOKENIZER_NAME = OV_TOKENIZER_NAME.replace("{}", "")
+_OV_DETOKENIZER_NAME = OV_DETOKENIZER_NAME.replace("{}", "")
+
 
 def export_from_config_file(config_file_path: str) -> None:
     """Export a model using the config file passed."""
@@ -95,8 +99,8 @@ def export_model_tokenizer(model_config: ModelConfigurationInternal) -> None:
         hf_tokenizer,
         with_detokenizer=True,
     )
-    tokenizer_save_path = f"{save_dir}/{OV_TOKENIZER_NAME}"
-    detokenizer_save_path = f"{save_dir}/{OV_DETOKENIZER_NAME}"
+    tokenizer_save_path = f"{save_dir}/{_OV_TOKENIZER_NAME}"
+    detokenizer_save_path = f"{save_dir}/{_OV_DETOKENIZER_NAME}"
     save_model(ov_tokenizer, tokenizer_save_path)
     save_model(ov_detokenizer, detokenizer_save_path)
 
