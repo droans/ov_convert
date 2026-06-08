@@ -64,7 +64,7 @@ Parameters:
 """)
 
 
-def get_bin_path(bin_name: str, error_out: bool = True) -> str:  # noqa: FBT001, FBT002
+def get_bin_path(bin_name: str, error_out: bool = True) -> str:
     """Get the path for a binary using `which {bin}`."""
     cmd_result = subprocess.run(["which", bin_name], check=True, capture_output=True)  # noqa: S603, S607
     if cmd_result.returncode != 0:
@@ -119,9 +119,7 @@ def install_apt_dependency(
         cmd += "--upgrade"
     cmd += ["-y", dep]
     update_cmd += ["apt-get", "upgrade"]
-    print(f"Calling command: {update_cmd}")
     subprocess.run(update_cmd, check=True, shell=False)  # noqa: S603
-    print(f"Calling command: {cmd}")
     subprocess.run(cmd, check=True, shell=False)  # noqa: S603
 
 
@@ -137,21 +135,24 @@ def install_apt_group_dependency(
 def install_pip_dependency(
     dep: str | list[str] | PipDependencyOptionsType | list[PipDependencyOptionsType],
     install_or_upgrade: Literal["install", "upgrade"],
+    no_deps: bool,
 ) -> None:
     """Installs a single or multiple apt dependencies."""
     used_dep = " ".join(dep) if isinstance(dep, list) else str(dep)
     cmd = get_pip_env_cmd()
     if install_or_upgrade == "upgrade":
         cmd += ["--upgrade"]
+    if no_deps:
+        cmd += ["--no-deps"]
     cmd += [used_dep]
-    print(f"Calling command: {cmd}")
     subprocess.run(cmd, check=True, shell=False)  # noqa: S603
 
 
 def install_pip_group_dependency(
     dependency_group: PipDependencyGroupOptionsType,
     install_or_upgrade: Literal["install", "upgrade"],
+    no_deps: bool,
 ) -> None:
     """Installs all dependencies for a pip dependency group."""
     dependencies = PIP_GROUP_DEPENDENCIES[dependency_group]
-    install_pip_dependency(dependencies, install_or_upgrade)
+    install_pip_dependency(dependencies, install_or_upgrade, no_deps)

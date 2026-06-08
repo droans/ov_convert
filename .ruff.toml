@@ -15,9 +15,11 @@ line-ending = "lf"
 [lint]
 select = ["ALL"]
 ignore = [
-    "PTH123",  # `open()` should be replaced by `Path.open()`
+    "FBT001",   # boolean-type-hint-positional-argument
+    "FBT002",   # boolean-default-value-positional-argument
+    "PTH123",   # `open()` should be replaced by `Path.open()`
     "PLC0415",  # `open()` should be replaced by `Path.open()`
-    "S101",    # Use of assert detected
+    "S101",     # Use of assert detected
 ]
 
 

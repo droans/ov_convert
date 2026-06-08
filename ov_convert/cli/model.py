@@ -40,12 +40,22 @@ class DependencyManagementModelSchema(BaseModel):
         default=None,
         alias=AliasChoices("pr", "pull-request"),
     )  # ty:ignore[no-matching-overload]
+    deps: bool = Field(
+        default=True,
+        optional=True,
+    )
 
 
-class CLIModelSchema(BaseSettings, cli_parse_args=True, cli_exit_on_error=False):
+class CLIModelSchema(
+    BaseSettings,
+    cli_parse_args=True,
+    cli_exit_on_error=False,
+    cli_implicit_flags="dual",
+):
     """Model for CLI arguments."""
 
     convert: CliSubCommand[ConvertModelSchema]
+    deps: CliSubCommand[DependencyManagementModelSchema]
 
 
 SubcommandSchemaType = type[DependencyManagementModelSchema | ConvertModelSchema]
