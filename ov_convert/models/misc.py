@@ -8,7 +8,7 @@ from ov_convert.models.const import (
     DEFAULT_LOG_FILTER_COMPONENTS,
     DEFAULT_LOG_FORMAT,
     DEFAULT_LOG_LEVEL,
-    LOG_LEVELS_TYPE,
+    LogLevelsType,
 )
 
 
@@ -78,7 +78,7 @@ class LogFilters(BaseModel):
 class LogConfigSchema(BaseModel):
     """Config schema for log settings."""
 
-    level: LOG_LEVELS_TYPE = DEFAULT_LOG_LEVEL
+    level: LogLevelsType = DEFAULT_LOG_LEVEL
     format: str = DEFAULT_LOG_FORMAT
     path: str | None = None
     filters: LogFilters = LogFilters()

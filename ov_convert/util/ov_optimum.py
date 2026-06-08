@@ -48,7 +48,7 @@ def generate_ov_component_quant_config(
     passed_config.pop("kwargs")
     passed_config = {**passed_config, **(kwargs or {})}
     passed_config["ignored_scope"] = (
-        IgnoredScope(**config.ignored_scope.model_dump()) if config.ignored_scope else {}
+        IgnoredScope(**passed_config["ignored_scope"]) if config.ignored_scope else {}
     )
     cls = (
         optimum.intel.OVWeightQuantizationConfig
