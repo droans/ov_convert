@@ -64,7 +64,7 @@ Parameters:
 """)
 
 
-def get_bin_path(bin_name: str, error_out: bool = True) -> str:  # noqa: FBT001, FBT002
+def get_bin_path(bin_name: str, error_out: bool = True) -> str:
     """Get the path for a binary using `which {bin}`."""
     cmd_result = subprocess.run(["which", bin_name], check=True, capture_output=True)  # noqa: S603, S607
     if cmd_result.returncode != 0:
