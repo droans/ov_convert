@@ -38,7 +38,7 @@ def manage_all_dependencies(config: DependencyManagementModelSchema) -> None:
     action = config.action
     for item in APT_DEPENDENCY_GROUP_OPTIONS:
         install_apt_group_dependency(item, action)
-    install_pip_group_dependency("all-pip", action)
+    install_pip_group_dependency("all-pip", action, no_deps=not config.deps)
 
 
 def manage_pip_dependencies(config: DependencyManagementModelSchema) -> None:
@@ -67,13 +67,13 @@ def manage_pip_dependencies(config: DependencyManagementModelSchema) -> None:
         print(f"PR arg: {arg}")
     cmd = dep + arg
     print(f"Using command: {cmd}")
-    install_pip_dependency(f"{dep}{arg}", config.action)
+    install_pip_dependency(f"{dep}{arg}", config.action, no_deps=not config.deps)
 
 
 def manage_pip_group_dependencies(config: DependencyManagementModelSchema) -> None:
     """Manage Pip group dependencies for OpenVino."""
     print("Installing pip dependency group...")
-    install_pip_group_dependency(config.dependency, config.action)  # ty:ignore[invalid-argument-type]
+    install_pip_group_dependency(config.dependency, config.action, no_deps=not config.deps)  # ty:ignore[invalid-argument-type]
 
 
 def manage_apt_dependencies(config: DependencyManagementModelSchema) -> None:

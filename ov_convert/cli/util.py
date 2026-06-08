@@ -135,12 +135,15 @@ def install_apt_group_dependency(
 def install_pip_dependency(
     dep: str | list[str] | PipDependencyOptionsType | list[PipDependencyOptionsType],
     install_or_upgrade: Literal["install", "upgrade"],
+    no_deps: bool,
 ) -> None:
     """Installs a single or multiple apt dependencies."""
     used_dep = " ".join(dep) if isinstance(dep, list) else str(dep)
     cmd = get_pip_env_cmd()
     if install_or_upgrade == "upgrade":
         cmd += ["--upgrade"]
+    if no_deps:
+        cmd += ["--no-deps"]
     cmd += [used_dep]
     subprocess.run(cmd, check=True, shell=False)  # noqa: S603
 
@@ -148,7 +151,8 @@ def install_pip_dependency(
 def install_pip_group_dependency(
     dependency_group: PipDependencyGroupOptionsType,
     install_or_upgrade: Literal["install", "upgrade"],
+    no_deps: bool,
 ) -> None:
     """Installs all dependencies for a pip dependency group."""
     dependencies = PIP_GROUP_DEPENDENCIES[dependency_group]
-    install_pip_dependency(dependencies, install_or_upgrade)
+    install_pip_dependency(dependencies, install_or_upgrade, no_deps)
