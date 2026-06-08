@@ -1,7 +1,7 @@
 """CLI Scripts."""
 
-from .cli import cli_convert
+from .cli import cli_call
 
 __all__ = [
-    "cli_convert",
+    "cli_call",
 ]
