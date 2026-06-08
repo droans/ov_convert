@@ -6,11 +6,11 @@ from typing import Annotated, Literal
 from annotated_types import Ge, Le
 from pydantic import constr
 
-BACKUP_PRECISION_TYPE = Literal["int8_sym", "int8_asym"]
+BackupPrecisionType = Literal["int8_sym", "int8_asym"]
 
-GROUP_SIZE_FALLBACK_TYPE = Literal["error", "ignore", "adjust"]
+GroupSizeFallbackType = Literal["error", "ignore", "adjust"]
 
-SENSITIVITIY_METRIC_TYPE = Literal[
+SensitivityMetricType = Literal[
     "weight_quantization_error",
     "hessian_input_activation",
     "mean_activation_variance",
@@ -18,8 +18,8 @@ SENSITIVITIY_METRIC_TYPE = Literal[
     "mean_activation_magnitude",
 ]
 
-QUANT_METHOD_TYPE = Literal["awq", "hybrid", "default"]
-DEFAULT_QUANT_METHOD_TYPE: QUANT_METHOD_TYPE = "default"
+QuantMethodType = Literal["awq", "hybrid", "default"]
+DEFAULT_QUANT_METHOD_TYPE: QuantMethodType = "default"
 
 LLM_DATASETS = [
     "auto",
@@ -28,11 +28,11 @@ LLM_DATASETS = [
     "c4-new",
     "gsm8k",
 ]
-LLM_DATASET_TYPE = constr(pattern=rf"({'|'.join(LLM_DATASETS)})(:seq_len=\d+)?$")
+LlmDatasetType = constr(pattern=rf"({'|'.join(LLM_DATASETS)})(:seq_len=\d+)?$")
 VLM_DATASETS = ["contextual"]
-VLM_DATASET_TYPE = constr(pattern=rf"({'|'.join(VLM_DATASETS)})(:seq_len=\d+)?$")
+VlmDatasetType = constr(pattern=rf"({'|'.join(VLM_DATASETS)})(:seq_len=\d+)?$")
 
-WEIGHT_FORMATS_TYPE = Literal[
+WeightFormatsType = Literal[
     "fp32",
     "fp16",
     "int8",
@@ -42,7 +42,7 @@ WEIGHT_FORMATS_TYPE = Literal[
     "cb4",
 ]
 
-QUANT_MODES_TYPE = Literal[
+QuantModesType = Literal[
     "int8",
     "f8e4m3",
     "f8e5m2",
@@ -51,9 +51,9 @@ QUANT_MODES_TYPE = Literal[
     "int4_f8e5m2",
 ]
 
-PERCENTAGE_TYPE = Annotated[float, Ge(0), Le(1)]
+PercentageType = Annotated[float, Ge(0), Le(1)]
 
-LOG_LEVELS_TYPE = Literal[
+LogLevelsType = Literal[
     "debug",
     "DEBUG",
     "info",
@@ -67,8 +67,8 @@ LOG_LEVELS_TYPE = Literal[
     "fatal",
     "FATAL",
 ]
-LOG_LEVELS = list(typing.get_args(LOG_LEVELS_TYPE))
-DEFAULT_LOG_LEVEL: LOG_LEVELS_TYPE = "error"
+LOG_LEVELS = list(typing.get_args(LogLevelsType))
+DEFAULT_LOG_LEVEL: LogLevelsType = "error"
 DEFAULT_LOG_FORMAT = "%(asctime)s | %(levelname)s | %(message)s"
 DEFAULT_LOG_PATH = "./ov_convert.log"
 DEFAULT_LOG_FILTER_COMPONENTS = [
