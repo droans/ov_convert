@@ -1,0 +1,33 @@
+---
+name: Release Drafter
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update_release_draft:
+    name: Draft release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Get Version
+        id: version
+        run: |
+          echo "pkg_version=$(jq -r '.version' custom_components/mass_queue/manifest.json)" >> "${GITHUB_OUTPUT}"
+      - name: Run Release Drafter
+        uses: release-drafter/release-drafter@v6.1.0
+        with:
+          tag: ${{ steps.version.outputs.pkg_version }}
+          version: ${{ steps.version.outputs.pkg_version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
