@@ -46,6 +46,7 @@ class CLIModelSchema(BaseSettings, cli_parse_args=True, cli_exit_on_error=False)
     """Model for CLI arguments."""
 
     convert: CliSubCommand[ConvertModelSchema]
+    deps: CliSubCommand[DependencyManagementModelSchema]
 
 
 SubcommandSchemaType = type[DependencyManagementModelSchema | ConvertModelSchema]
