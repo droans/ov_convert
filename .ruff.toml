@@ -31,7 +31,10 @@ known-first-party = ["GrossOrders"]
 [lint.mccabe]
 max-complexity = 25
 
-
+[lint.per-file-ignores]
+"ov_convert/cli/*.py" = [
+    "T201",
+]
 [lint.pydocstyle]
 convention = "pep257"
 
