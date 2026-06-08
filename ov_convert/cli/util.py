@@ -119,9 +119,7 @@ def install_apt_dependency(
         cmd += "--upgrade"
     cmd += ["-y", dep]
     update_cmd += ["apt-get", "upgrade"]
-    print(f"Calling command: {update_cmd}")
     subprocess.run(update_cmd, check=True, shell=False)  # noqa: S603
-    print(f"Calling command: {cmd}")
     subprocess.run(cmd, check=True, shell=False)  # noqa: S603
 
 
@@ -144,7 +142,6 @@ def install_pip_dependency(
     if install_or_upgrade == "upgrade":
         cmd += ["--upgrade"]
     cmd += [used_dep]
-    print(f"Calling command: {cmd}")
     subprocess.run(cmd, check=True, shell=False)  # noqa: S603
 
 
