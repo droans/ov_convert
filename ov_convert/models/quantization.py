@@ -89,6 +89,7 @@ class WeightQuantizationConfig(BaseQuantizationConfig):
 class MixedQuantizationConfig(BaseModel):
     """Mixed quantization config for a model slice."""
 
+    dtype: str
     weight_quantization_config: WeightQuantizationConfig = WeightQuantizationConfig()
     full_quantization_config: FullQuantizationConfig = FullQuantizationConfig()
     ignored_scope: IgnoredScopeConfig | None = None
