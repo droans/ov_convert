@@ -8,6 +8,7 @@ from ov_convert.models.const import OVQuantConfigTypes
 from ov_convert.models.model import ModelConfigurationInternal
 from ov_convert.models.quantization import (
     LlmQuantizationSettingsSchema,
+    MixedQuantizationConfig,
     QuantizationConfigType,
     VlmCustomDataset,
     VlmQuantizationSettingsSchema,
@@ -19,6 +20,17 @@ def _generate_single_quant_config(
     quant_config: QuantizationConfigType,
 ) -> OVQuantConfigTypes:
     """Generate a single quantization config."""
+    if isinstance(quant_config, MixedQuantizationConfig):
+        dumped = quant_config.model_dump()
+        kwargs = dumped.pop("kwargs")
+        kwargs = kwargs or {}
+        dumped["weight_quantization_config"] = generate_ov_component_quant_config(
+            quant_config.weight_quantization_config,
+        )
+        dumped["full_quantization_config"] = generate_ov_component_quant_config(
+            quant_config.full_quantization_config,
+        )
+        return optimum.intel.OVMixedQuantizationConfig(**dumped, **kwargs)
     return generate_ov_component_quant_config(quant_config)
 
 
