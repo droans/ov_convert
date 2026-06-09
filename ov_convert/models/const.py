@@ -3,6 +3,7 @@
 import typing
 from typing import Annotated, Literal
 
+import optimum.intel
 from annotated_types import Ge, Le
 from pydantic import constr
 
@@ -83,3 +84,9 @@ DEFAULT_LOG_FILTER_COMPONENTS = [
     "httpcore.http11",
     "filelock",
 ]
+
+OVQuantConfigTypes = (
+    optimum.intel.OVWeightQuantizationConfig
+    | optimum.intel.OVQuantizationConfig
+    | optimum.intel.OVMixedQuantizationConfig
+)

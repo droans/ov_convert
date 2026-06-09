@@ -99,26 +99,27 @@ class MixedQuantizationConfig(BaseModel):
     kwargs: dict | None = None
 
 
+QuantizationConfigType = WeightQuantizationConfig | FullQuantizationConfig | MixedQuantizationConfig
+
+
 class BaseQuantizationSettingsSchema(BaseModel):
     """Base quantization config schema."""
 
     num_samples: int | None = None
     tokenizer: str | None = None
     processor: str | None = None
-    default_config: FullQuantizationConfig | WeightQuantizationConfig | None = (
-        WeightQuantizationConfig()
-    )
+    default_config: QuantizationConfigType | None = WeightQuantizationConfig()
 
 
 class LlmQuantizationSettingsSchema(BaseQuantizationSettingsSchema):
     """LLM Quantization Settings."""
 
-    config: FullQuantizationConfig | WeightQuantizationConfig | None = None
+    config: QuantizationConfigType | None = None
     dataset: LlmDatasetType | None = None
 
 
 class VlmQuantizationSettingsSchema(BaseQuantizationSettingsSchema):
     """VLM Quantization Settings."""
 
-    config: dict[str, FullQuantizationConfig | WeightQuantizationConfig] | None = None
+    config: dict[str, QuantizationConfigType] | None = None
     dataset: VlmDatasetType | None | VlmCustomDataset = None
