@@ -55,8 +55,6 @@ class BaseQuantizationConfig(BaseModel):
     processor: str | None = None
     dtype: WeightFormatsType | None = None
     kwargs: dict | None = None
-    weights_only: bool  # Used to ensure selection of WeightQuantizationConfig
-    # or FullQuantizationConfig
 
 
 class FullQuantizationConfig(BaseQuantizationConfig):
@@ -65,7 +63,7 @@ class FullQuantizationConfig(BaseQuantizationConfig):
     fast_bias_correction: bool = True
     overflow_fix: Literal["enable", "disable", "first_layer_only"] = "disable"
     smooth_quant_alpha: PercentageType | Literal[-1] | None = None
-    weights_only: Literal[False] = False
+    weights_only: Literal[False] = False  # Used to ensure selection of FullQuantizationConfig
 
 
 class WeightQuantizationConfig(BaseQuantizationConfig):
@@ -83,7 +81,7 @@ class WeightQuantizationConfig(BaseQuantizationConfig):
     statistics_path: DirectoryPath | None = None
     group_size_fallback: GroupSizeFallbackType | None = None
     dq_group_size: int | None = None
-    weights_only: Literal[True] = True
+    weights_only: Literal[True] = True  # Used to ensure selection of WeightQuantizationConfig
 
 
 class BaseQuantizationSettingsSchema(BaseModel):
