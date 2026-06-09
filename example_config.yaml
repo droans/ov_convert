@@ -198,3 +198,27 @@ quantization:
       tokenizer: Qwen/Qwen3.5-0.8B
       quant_method: default
       bits: 4
+
+    ######################################################################
+    ###                 VLM Mixed Quantization Example                 ###
+    ###              See above for parameter descriptions              ###
+    ###                                                                ###
+    ###                For LLMs, remove the model keys.                ###
+    ######################################################################
+    # lm_model:
+    #   dtype: int4_int8
+    #   ignored_scope:
+    #     patterns: [".*router.*"]
+    #   num_samples: 128
+
+    #   # Weight quantization config will have the same fields as the weights-only quantization example above
+    #   weight_quantization_config:
+    #     dtype: int4
+
+    #   # Full quantization config will have the same fields as the full quantization example above
+    #   full_quantization_config:
+    #     dtype: int8
+    #     dataset: contextual
+
+    #   processor: Qwen/Qwen3.5-0.8B
+    #   tokenizer: Qwen/Qwen3.5-0.8B
