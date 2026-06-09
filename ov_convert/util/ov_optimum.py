@@ -3,10 +3,12 @@
 import optimum.intel
 from nncf import IgnoredScope
 
-from ov_convert.models import FullQuantizationConfig, WeightQuantizationConfig
+from ov_convert.models import WeightQuantizationConfig
+from ov_convert.models.const import OVQuantConfigTypes
 from ov_convert.models.model import ModelConfigurationInternal
 from ov_convert.models.quantization import (
     LlmQuantizationSettingsSchema,
+    QuantizationConfigType,
     VlmCustomDataset,
     VlmQuantizationSettingsSchema,
 )
@@ -14,18 +16,14 @@ from ov_convert.util.log import logger
 
 
 def _generate_single_quant_config(
-    quant_config: FullQuantizationConfig | WeightQuantizationConfig,
-) -> optimum.intel.OVWeightQuantizationConfig | optimum.intel.OVQuantizationConfig:
+    quant_config: QuantizationConfigType,
+) -> OVQuantConfigTypes:
     """Generate a single quantization config."""
     return generate_ov_component_quant_config(quant_config)
 
 
 def generate_ov_pipeline_quant_config(
-    quant_config: (
-        dict[str, FullQuantizationConfig | WeightQuantizationConfig]
-        | FullQuantizationConfig
-        | WeightQuantizationConfig
-    ),
+    quant_config: (dict[str, QuantizationConfigType] | QuantizationConfigType),
 ) -> dict:
     """Generate the pipeline config for a model."""
     if isinstance(quant_config, dict):
@@ -34,8 +32,8 @@ def generate_ov_pipeline_quant_config(
 
 
 def generate_ov_component_quant_config(
-    config: WeightQuantizationConfig | FullQuantizationConfig,
-) -> optimum.intel.OVWeightQuantizationConfig | optimum.intel.OVQuantizationConfig:
+    config: QuantizationConfigType,
+) -> OVQuantConfigTypes:
     """Generate the quantization config for a component in the model."""
     kwargs = config.kwargs
     passed_config: dict = config.model_dump()
