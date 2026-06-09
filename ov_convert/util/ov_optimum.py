@@ -42,6 +42,8 @@ def generate_ov_component_quant_config(
     if passed_config["ignored_scope"] is not None:
         validate = passed_config["ignored_scope"].pop("validate_scopes")
         passed_config["ignored_scope"]["validate"] = validate
+    # Used to ensure
+    passed_config.pop("weights_only")
     if isinstance(config.dataset, VlmCustomDataset):
         monkeypatch_custom_dataset(config.dataset)
         passed_config["dataset"] = config.dataset.id
