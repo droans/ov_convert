@@ -15,6 +15,7 @@ line-ending = "lf"
 [lint]
 select = ["ALL"]
 ignore = [
+    "COM812",
     "FBT001",   # boolean-type-hint-positional-argument
     "FBT002",   # boolean-default-value-positional-argument
     "PTH123",   # `open()` should be replaced by `Path.open()`
