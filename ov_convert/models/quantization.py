@@ -8,6 +8,7 @@ from pydantic import BaseModel, DirectoryPath
 from .const import (
     DEFAULT_QUANT_METHOD_TYPE,
     BackupPrecisionType,
+    FullQuantFormatsType,
     GroupSizeFallbackType,
     LlmDatasetType,
     PercentageType,
@@ -53,7 +54,6 @@ class BaseQuantizationConfig(BaseModel):
     dataset: VlmDatasetType | LlmDatasetType | None | VlmCustomDataset = None
     tokenizer: str | None = None
     processor: str | None = None
-    dtype: WeightFormatsType | None = None
     kwargs: dict | None = None
 
 
@@ -64,6 +64,7 @@ class FullQuantizationConfig(BaseQuantizationConfig):
     overflow_fix: Literal["enable", "disable", "first_layer_only"] = "disable"
     smooth_quant_alpha: PercentageType | Literal[-1] | None = None
     weights_only: Literal[False] = False  # Used to ensure selection of FullQuantizationConfig
+    dtype: FullQuantFormatsType | None = None
 
 
 class WeightQuantizationConfig(BaseQuantizationConfig):
@@ -82,6 +83,7 @@ class WeightQuantizationConfig(BaseQuantizationConfig):
     group_size_fallback: GroupSizeFallbackType | None = None
     dq_group_size: int | None = None
     weights_only: Literal[True] = True  # Used to ensure selection of WeightQuantizationConfig
+    dtype: WeightFormatsType | None = None
 
 
 class MixedQuantizationConfig(BaseModel):
