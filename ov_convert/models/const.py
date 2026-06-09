@@ -42,6 +42,12 @@ WeightFormatsType = Literal[
     "cb4",
 ]
 
+FullQuantFormatsType = Literal[
+    "int8",
+    "f8e4m3",
+    "f8e5m2",
+]
+
 QuantModesType = Literal[
     "int8",
     "f8e4m3",
