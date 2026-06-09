@@ -3,6 +3,7 @@
 import typing
 from typing import Annotated, Literal
 
+import optimum.intel
 from annotated_types import Ge, Le
 from pydantic import constr
 
@@ -42,6 +43,12 @@ WeightFormatsType = Literal[
     "cb4",
 ]
 
+FullQuantFormatsType = Literal[
+    "int8",
+    "f8e4m3",
+    "f8e5m2",
+]
+
 QuantModesType = Literal[
     "int8",
     "f8e4m3",
@@ -77,3 +84,9 @@ DEFAULT_LOG_FILTER_COMPONENTS = [
     "httpcore.http11",
     "filelock",
 ]
+
+OVQuantConfigTypes = (
+    optimum.intel.OVWeightQuantizationConfig
+    | optimum.intel.OVQuantizationConfig
+    | optimum.intel.OVMixedQuantizationConfig
+)
