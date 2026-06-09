@@ -84,6 +84,19 @@ class WeightQuantizationConfig(BaseQuantizationConfig):
     weights_only: Literal[True] = True  # Used to ensure selection of WeightQuantizationConfig
 
 
+class MixedQuantizationConfig(BaseModel):
+    """Mixed quantization config for a model slice."""
+
+    weight_quantization_config: WeightQuantizationConfig = WeightQuantizationConfig()
+    full_quantization_config: FullQuantizationConfig = FullQuantizationConfig()
+    ignored_scope: IgnoredScopeConfig | None = None
+    num_samples: int | None = None
+    dataset: VlmDatasetType | LlmDatasetType | None | VlmCustomDataset = None
+    tokenizer: str | None = None
+    processor: str | None = None
+    kwargs: dict | None = None
+
+
 class BaseQuantizationSettingsSchema(BaseModel):
     """Base quantization config schema."""
 
