@@ -2,7 +2,6 @@
 
 import os
 import shutil
-import subprocess
 import sys
 from typing import Literal
 
@@ -13,6 +12,7 @@ from ov_convert.cli.const import (
     PipDependencyGroupOptionsType,
     PipDependencyOptionsType,
 )
+from ov_convert.util.log import logged_popen, logger
 
 
 def print_help() -> None:
@@ -66,14 +66,14 @@ Parameters:
 
 def get_bin_path(bin_name: str, error_out: bool = True) -> str:
     """Get the path for a binary using `which {bin}`."""
-    cmd_result = subprocess.run(["which", bin_name], check=True, capture_output=True)  # noqa: S603, S607
-    if cmd_result.returncode != 0:
-        msg = f"Could not get binary for {bin_name} (Return code: {cmd_result.returncode})"
+    proc, result = logged_popen(logger.debug, ["which", bin_name], shell=False)
+    if proc.returncode != 0:
+        msg = f"Could not get binary for {bin_name} (Return code: {proc.returncode})"
         if error_out:
             raise SystemError(msg)
         print(f"Received error: {msg}")
         return ""
-    return cmd_result.stdout.decode().replace("\n", "")
+    return result
 
 
 def is_sudo_present() -> bool:
@@ -119,8 +119,8 @@ def install_apt_dependency(
         cmd += "--upgrade"
     cmd += ["-y", dep]
     update_cmd += ["apt-get", "upgrade"]
-    subprocess.run(update_cmd, check=True, shell=False)  # noqa: S603
-    subprocess.run(cmd, check=True, shell=False)  # noqa: S603
+    logged_popen(logger.debug, update_cmd, shell=False)
+    logged_popen(logger.debug, cmd, shell=False)
 
 
 def install_apt_group_dependency(
@@ -145,7 +145,7 @@ def install_pip_dependency(
     if no_deps:
         cmd += ["--no-deps"]
     cmd += [used_dep]
-    subprocess.run(cmd, check=True, shell=False)  # noqa: S603
+    logged_popen(logger.debug, cmd, shell=False)
 
 
 def install_pip_group_dependency(
