@@ -66,6 +66,8 @@ Parameters:
 
 def get_bin_path(bin_name: str, error_out: bool = True) -> str:
     """Get the path for a binary using `which {bin}`."""
+    msg = f"Searching for {bin_name}..."
+    logger.debug(msg)
     proc, result = logged_popen(logger.debug, ["which", bin_name], shell=False)
     if proc.returncode != 0:
         msg = f"Could not get binary for {bin_name} (Return code: {proc.returncode})"
