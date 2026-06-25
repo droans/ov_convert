@@ -1,6 +1,9 @@
 """Control logging settings."""
 
 import logging
+import subprocess
+from collections.abc import Callable
+from io import BufferedReader
 
 from ov_convert.models.misc import LogConfigSchema, LogFilters
 
@@ -20,7 +23,10 @@ class LogFilter(logging.Filter):
         """Determine if log should be passed."""
         if record.name in self._filters.components:
             return False
-        return not any(item in record.message for item in self._filters.messages)
+        try:
+            return not any(item in record.message for item in self._filters.messages)
+        except:  # noqa: E722
+            return not any(item in record.msg for item in self._filters.messages)
 
 
 def setup_logging(log_config: LogConfigSchema) -> None:
@@ -38,3 +44,45 @@ def setup_logging(log_config: LogConfigSchema) -> None:
     )
     logger.addFilter(LogFilter(log_config.filters))
     logging.root.addHandler(handler)
+
+
+def _log_popen(pipe: BufferedReader, log_fn: Callable) -> str:
+    result = ""
+    for line in iter(pipe.readline, b""):
+        tmp = line.decode()
+        log_fn(tmp.strip())
+        result += tmp
+    return result
+
+
+def logged_popen(
+    log_fn: Callable = logger.debug,
+    *args,  # noqa: ANN002
+    log_stdin: bool = False,
+    log_stdout: bool = True,
+    log_stderr: bool = True,
+    shell: bool = False,
+    cwd: str | None = None,
+    **kwargs,  # noqa: ANN003
+) -> tuple[subprocess.Popen, str]:
+    """Run subprocess.popen and send output to logs."""
+    if log_stdin:
+        kwargs["stdin"] = subprocess.STDOUT
+    if log_stdout:
+        kwargs["stdout"] = subprocess.PIPE
+    if log_stderr:
+        kwargs["stderr"] = subprocess.STDOUT
+    process = subprocess.Popen(  # noqa: S603
+        *args,
+        shell=shell,
+        cwd=cwd,
+        **kwargs,
+    )
+    result = ""
+    if isinstance(process.stdout, BufferedReader):
+        with process.stdout:
+            result = _log_popen(process.stdout, log_fn)
+    else:
+        log_fn("No stdout - not logging.")
+    process.kill()
+    return (process, result)

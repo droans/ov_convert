@@ -53,6 +53,6 @@ version-resolver:
   default: patch
 
 template: |
-  # Music Assistant Queue Actions v$RESOLVED_VERSION
+  # ov-convert v$RESOLVED_VERSION
 
   $CHANGES

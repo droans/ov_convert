@@ -1,9 +1,8 @@
 """Constants."""
 
 import typing
-from typing import Annotated, Literal
+from typing import TYPE_CHECKING, Annotated, Any, Literal
 
-import optimum.intel
 from annotated_types import Ge, Le
 from pydantic import constr
 
@@ -76,7 +75,7 @@ LogLevelsType = Literal[
 ]
 LOG_LEVELS = list(typing.get_args(LogLevelsType))
 DEFAULT_LOG_LEVEL: LogLevelsType = "error"
-DEFAULT_LOG_FORMAT = "%(asctime)s | %(levelname)s | %(message)s"
+DEFAULT_LOG_FORMAT = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
 DEFAULT_LOG_PATH = "./ov_convert.log"
 DEFAULT_LOG_FILTER_COMPONENTS = [
     "httpx",
@@ -85,8 +84,15 @@ DEFAULT_LOG_FILTER_COMPONENTS = [
     "filelock",
 ]
 
-OVQuantConfigTypes = (
-    optimum.intel.OVWeightQuantizationConfig
-    | optimum.intel.OVQuantizationConfig
-    | optimum.intel.OVMixedQuantizationConfig
-)
+if TYPE_CHECKING:
+    from optimum.intel import (
+        OVMixedQuantizationConfig,
+        OVQuantizationConfig,
+        OVWeightQuantizationConfig,
+    )
+
+    OVQuantConfigTypes = (
+        OVWeightQuantizationConfig | OVQuantizationConfig | OVMixedQuantizationConfig
+    )
+else:
+    OVQuantConfigTypes = Any
