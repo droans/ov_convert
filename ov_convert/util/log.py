@@ -23,7 +23,10 @@ class LogFilter(logging.Filter):
         """Determine if log should be passed."""
         if record.name in self._filters.components:
             return False
-        return not any(item in record.message for item in self._filters.messages)
+        try:
+            return not any(item in record.message for item in self._filters.messages)
+        except:  # noqa: E722
+            return not any(item in record.msg for item in self._filters.messages)
 
 
 def setup_logging(log_config: LogConfigSchema) -> None:
